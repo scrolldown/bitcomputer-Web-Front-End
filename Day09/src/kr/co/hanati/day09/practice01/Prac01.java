@@ -26,8 +26,8 @@ public class Prac01 {
 			if(inputData.equals("exit")) break;
 			else writer.write(inputData + "\n");
 		}
-		
 		writer.close();
+		
 		
 		FileReader reader = new FileReader(file);
 		int outputData;
@@ -35,6 +35,7 @@ public class Prac01 {
 			char ch = (char)outputData;
 			System.out.print(ch);
 		}
+		reader.close();
 	}
 
 }
