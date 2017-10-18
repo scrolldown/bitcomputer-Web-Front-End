@@ -99,7 +99,7 @@ order by deptno;
 -- 내문제3) job이 clerk이거나 이름에 s가 들어가는 사람들의 부서 번호 내림차순으로 출력
 select *
 from emp
-where job='clerk' or ename='%s%'
+where job='clerk' or ename LIKE '%s%'
 order by deptno desc;
 
 

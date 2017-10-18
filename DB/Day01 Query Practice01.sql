@@ -8,13 +8,13 @@ ORDER BY SALARY DESC;
 -- 2. 직업이 SALESMAN 이고 고용날짜가 1982년 이전인 사람을 부서 오름차순으로 정렬하시오.
 SELECT *
 FROM EMP
-WHERE JOB='SALESMAN' AND HIREDATE <= 19820101
+WHERE JOB='SALESMAN' AND HIREDATE <= '1982-%'
 ORDER BY DEPTNO;
 
 -- 3. 사번에 7이 2번 들어가는 사람( ex) empno=7807 )을 연봉 내림차순으로 출력하시오.
 SELECT *
 FROM EMP
-WHERE empno LIKE '7%7%'
+WHERE empno LIKE '%7%7%'
 ORDER BY SALARY DESC;
 
 -- 4. 이름이 A로 시작하는 사람 중 연봉이 1000이상인 사람을 부서 내림차순으로 출력하시오.
