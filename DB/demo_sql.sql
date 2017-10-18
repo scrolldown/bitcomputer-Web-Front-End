@@ -8,7 +8,6 @@
 -- 					  중복 가능
 -- 					  
 
-
 CREATE TABLE EMP(
    empno      INTEGER NOT NULL,
    ename       VARCHAR(10),
