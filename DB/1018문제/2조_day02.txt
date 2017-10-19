@@ -1,0 +1,56 @@
+Day 02 문제
+
+1) 직업이 'Salesman'인 사람의 급여의 총 합과 급여의 평균을 조회하시오. 
+SELECT MAX(SALARY), AVG(SALARY)
+
+FROM EMP
+
+WHERE JOB = 'SALESMAN';
+
+
+2) 사번이 7500 이하이면서 직업이 manager인 사람들의 모든 정보를 출력하시오.
+SELECT *
+
+FROM EMP
+
+WHERE EMPNO <= 7500 
+AND JOB = 'MANAGER';
+
+3) 부서별 평균연봉과 부서 번호를 평균연봉 오름차순으로 조회하시오.
+SELECT AVG(SALARY) AS AVG_SAL, DEPTNO
+
+FROM EMP
+
+GROUP BY DEPTNO
+
+ORDER BY AVG_SAL;
+
+4) 부서별 사번이 높은 사람들의 이름과 사번과 부서번호를 출력하시오.
+SELECT E1.ENAME, E1.EMPNO, E1.DEPTNO
+
+FROM EMP E1
+
+WHERE E1.EMPNO IN (SELECT MAX(EMPNO)
+					
+		     FROM EMP
+					
+		     GROUP BY DEPTNO );
+
+5) 커미션이 있는 사람의 상사 정보를 출력하시오
+SELECT DISTINCT E1.*
+
+FROM EMP E1, (SELECT * 
+	        FROM EMP 
+	        WHERE COMM IS NOT NULL) E2
+
+WHERE E1.EMPNO = E2.MGR;
+
+6) 부서 번호가 '20' 인 사람 중 직업이 'ANALYST'가 아닌 사람의 평균 연봉을 출력하시오
+
+7) 'president'가 아닌 사람들의 부서별 총 급여
+
+8)부서별 직업이 'salesman'인 사람의 최대 급여
+
+9) 각 부서마다 월급을 가장 많이 받는 사람의 이름과 직업, 부서이름, 월급을 출력하시오
+
+10) 'DALLAS'에 살고 있는 사람중 월급이 가장 높은 사람의 이름과 부서이름을 출력하시오

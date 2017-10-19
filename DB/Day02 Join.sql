@@ -1,6 +1,6 @@
 -- 조인------------------
 -- 하나 이상의 테이블로부터 연관된 데이터를 검색해오는 방법
-
+-- 내가 가지고 있는 정보를 토대로 다른 테이블의 정보를 불러올 때 
 -- 조인의 기본 유형
 
 -- **Cartesian Join ( 잘못된 조인 )
@@ -10,12 +10,14 @@
 -- 아래의 예제 에서는 두 테이블의 공통점 없이 14x4의 56개의 row가 출력됨.
 select * from dept, emp;
 -- ---> 이를 통해 알수 있는 것 : Join에는 조건이 무조건 필요.
-
+-- 		즉, 반드시 FROM 절에 등장한 테이블은 각각 하나이상의 테이블과 JOIN을 해야 한다.
+-- 꼭 조인조건이 PK-FK가 아니더라도 상관 없다.
 
 --  equijoin----------
 -- 컬럼에 있는 값이 정확하게 일치하는 경우에 = 연산자를 사용하여 JOIN
 -- 한마디로 WHERE를 이용해서 테이블과 테이블 사이의 공통적인 key 값을 넣어 사용
 -- 테이블 명을 그대로 사용하는 것은 위험하므로, from에 ALIAS 사용
+-- where을 사용할 경우, 조건이므로 하나씩만 매칭되어야함.
 -- -각 사원이 어디 부서에 근무하는지를 조회하는 쿼리
 select e.ename, d.dname
 from dept d, emp e
@@ -104,10 +106,10 @@ where salary in (select min(salary)
 -- 2. 제일 밖 쿼리의 WHERE 절
 -- 3. SUBQUERY가 있다면 SUBQUERY부터 읽기 - 서브쿼리 안에서 1번으로 돌아감.
 --    서브 쿼리만 따로 빼서 실행을 해보면 좋음.
-select min(salary)
-from emp
-where job='CLERK'
-group by deptno;
+				select min(salary)
+				from emp
+				where job='CLERK'
+				group by deptno;
 
 
 -- ANY : OR의 개념. 어떠한 조건이라도 일치가 되면 조회 대상
@@ -202,15 +204,3 @@ from emp;
 
 select *
 from dept;
--- 1. 각 부서별 직업이 SALESMAN이거나 MANAGER인 사람들 중 1981년에 고용된 사람의 직업, 부서와 평균 급여를 조회
-select job, avg(salary), deptno
-from emp
-where hiredate like '1981-%' and (job='manager' or job='salesman')
-group by deptno, job;
-
--- 2. 1981년에 고용된 사람들 중 직업별로 급여를 가장 많이 받는 사람과 적게 받는 사람의 정보 조회
-select *
-from (select max(salary) max_sal,min(salary) min_sal
-	  from emp
-      where hiredate like '1981-%') a, emp e
-where e.salary=max_sal or e.salary=min_sal;

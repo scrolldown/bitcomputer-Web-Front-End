@@ -1,0 +1,6 @@
+		select distinct ename,salary
+        from emp e, dept d, (select min(salary) as min
+							 from emp
+                             join dept using (deptno)
+                             where location='chicago') r
+        where e.salary=r.min;

@@ -142,6 +142,17 @@ FROM EMP
 WHERE JOB='CLERK';
 
 -- GROUP BY : 컬럼별로 그룹을 지어줄 때 사용.
+-- group by 를 사용해도 중복된 데이터가 사라지는건 아님.(카테고리를 만들어 주는 것)
+-- ex) sum(salary)하면 모든 사원의 salary가 합해질 것을
+select sum(salary)
+from emp;
+-- 		group by를 이용하면 부서별 사원의 salary합을 구할 수 있다.
+select sum(salary)
+from emp
+group by deptno;
+
+
+
 -- GROUP BY절이 들어가면 SELECT에 해당 컬럼 작성하는게 의미를 줌.
 SELECT AVG(SALARY), DEPTNO
 FROM EMP
