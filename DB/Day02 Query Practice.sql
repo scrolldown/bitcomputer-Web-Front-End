@@ -1,4 +1,3 @@
-
 -- 내가 낸 문제
 -- 1. 각 부서별 직업이 SALESMAN이거나 MANAGER인 사람들 중 1981년에 고용된 사람의 직업, 부서와 평균 급여를 조회
 select job, avg(salary), deptno
@@ -8,10 +7,36 @@ group by deptno, job;
 
 -- 2. 1981년에 고용된 사람들 중 직업별로 급여를 가장 많이 받는 사람과 적게 받는 사람의 정보 조회
 select *
-from (select max(salary) max_sal,min(salary) min_sal
+from emp e
+join (select max(salary) max_sal
+			,min(salary) min_sal
+            ,job
 	  from emp
-      where hiredate like '1981-%') a, emp e
-where e.salary=max_sal or e.salary=min_sal;
+      where hiredate like '1981-%'
+	  group by job) a using (job)
+where (e.salary=max_sal or e.salary=min_sal) and hiredate like '1981-%'
+order by e.job;
+
+select e.*
+from emp e
+join (select job, max(salary) max_sal, min(salary) min_sal
+       from emp
+       where hiredate = 1981
+       group by job) job_m on (e.job = job_m.job )
+where hiredate = 1981
+and ( salary = max_sal or salary = min_sal )
+order by job;
+
+select e.*
+from emp e
+join (select job, max(salary) max_sal, min(salary) min_sal
+       from emp
+       where hiredate = 1981
+       group by job) job_m on (e.job = job_m.job )
+where hiredate = 1981
+and salary = max_sal
+or salary = min_sal
+order by job;
 
 -- 1조 ------------------------------------------------------
 -- 1. 부서별 사번이 가장 높은 사람의 연봉과 이름을 출력하시오.
@@ -324,10 +349,10 @@ where salary=min_sal;
 			  group by deptno;
 
 -- 10) 직업별 총 급여의 합이 제일 많은 직업
-select max(sum_sal),job
-from (select sum(salary) sum_sal,job
-  	  from emp
-	  group by job) a;
+select sum(salary), job
+from emp e
+group by job
+order by sum(salary) desc limit 1;
 
 -- 6조 ------------------------------------------------------
 -- 1. 부서 인원이 4명보다 적은 부서의 부서번호, 인원수, 급여의 합을 출력하라.
@@ -515,3 +540,118 @@ from emp e,(    select deptno
 													   group by deptno)
 				group by deptno) a
 where e.deptno=a.deptno;
+
+-- ---- 연습 4번 응용
+-- 연습4) 부서별 가장 많은 직업은 무엇인지 조회 (부서명, 위치, 직업명, 개수) 하시오.
+
+select deptno,max(cnt) max_cnt
+from emp e
+join (select count(*) cnt,deptno,job
+	  from emp
+	  group by deptno,job) a using (deptno)
+group by cnt,job;
+
+
+select   d.dname dept_name, 
+      tb_job_cnt_dept.job cnt_job,
+        max(job_cnt) dept_cnt
+from (
+      select count(job) job_cnt, job, deptno
+      from emp e
+      group by deptno, job
+   ) tb_job_cnt_dept, dept d
+where tb_job_cnt_dept.deptno = d.deptno
+group by tb_job_cnt_dept.job_cnt,  tb_job_cnt_dept.job
+order by d.deptno;
+
+-- --------------------인터넷 추가 문제 ----------------------------
+-- 1. EMP 테이블에서 부서 인원이 4명보다 많은 부서의 부서번호, 인원수, 급여의 합을 출력하라.
+select deptno, dept_count, sum(salary)
+from emp e
+join (select count(*) dept_count, deptno
+	  from emp
+	  group by deptno) a using (deptno)
+where dept_count >= 4
+group by deptno;
+
+-- 2. EMP 테이블에서 가장 많은 사원이 속해있는 부서번호와 사원수를 출력하라.
+-- 3. EMP 테이블에서 가장 많은 사원을 갖는 MGR의 사원번호를 출력하라.
+-- 4. EMP 테이블에서 부서번호가 10인 사원수와 부서번호가 30인 사원수를 각각 출력하라.
+-- 5. EMP 테이블에서 사원번호가 7521인 사원의 직업과 같고 사원번호가 7934인 사원의 급여(SAL)보다 많은 사원의 사원번호, 이름, 직업, 급여를 출력하라.
+
+-- 7. 각 사원 별 시급을 계산하여 부서번호, 사원이름, 시급을 출력하라.
+-- 조건1. 한달 근무일수는 20일, 하루 근무시간은 8시간이다.
+-- 조건2. 시급은 소수 두 번째 자리에서 반올림한다.
+-- 조건3. 부서별로 오름차순 정렬
+-- 조건4. 시급이 많은 순으로 출력
+
+-- 8. 각 사원 별 커미션이 0 또는 NULL이고 부서위치가 ‘GO’로 끝나는 사원의 정보를 사원번호, 사원이름, 커미션, 부서번호, 부서명, 부서위치를 출력하라.
+-- 조건1. 보너스가 NULL이면 0으로 출력
+
+-- 9. 각 부서 별 평균 급여가 2000 이상이면 초과, 그렇지 않으면 미만을 출력하라.
+
+-- 10. 각 부서 별 입사일이 가장 오래된 사원을 한 명씩 선별해 사원번호, 사원명, 부서번호, 입사일을 출력하라.
+
+-- 11. 1980년~1980년 사이에 입사된 각 부서별 사원수를 부서번호, 부서명, 입사1980, 입사1981, 입사1982로 출력하라.
+
+-- 12. 1981년 5월 31일 이후 입사자 중 커미션이 NULL이거나 0인 사원의 커미션은 500으로 그렇지 않으면 기존 커미션을 출력하라.
+
+-- 13. 1981년 6월 1일 ~ 1981년 12월 31일 입사자 중 부서명이 SALES인 사원의 부서번호, 사원명, 직업, 입사일을 출력하라.
+-- 조건1. 입사일 오름차순 정렬
+
+-- 14. 현재 시간과 현재 시간으로부터 한 시간 후의 시간을 출력하라.
+-- 조건1. 현재시간 포맷은 ‘4자리년-2자일월-2자리일 24시:2자리분:2자리초’로 출력
+-- 조건1. 한시간후 포맷은 ‘4자리년-2자일월-2자리일 24시:2자리분:2자리초’로 출력
+
+-- 15. 각 부서별 사원수를 출력하라.
+-- 조건1. 부서별 사원수가 없더라도 부서번호, 부서명은 출력
+-- 조건2. 부서별 사원수가 0인 경우 ‘없음’ 출력
+-- 조건3. 부서번호 오름차순 정렬
+select deptno,
+	  (select count(deptno)
+	   from dept
+  	  join emp e using (deptno)
+      where deptno=d.deptno
+	  group by deptno) a
+from dept d
+order by deptno;
+
+-- 16. 사원 테이블에서 각 사원의 사원번호, 사원명, 매니저번호, 매니저명을 출력하라.
+-- 조건1. 각 사원의 급여(SAL)는 매니저 급여보다 많거나 같다.
+select e1.*
+	   ,e2.empno mgr_no
+       ,e2.ename mgr_name
+       ,e2.salary mgr_sal
+from emp e1
+join emp e2 on (e1.mgr=e2.empno)
+where e1.salary >= e2.salary;
+
+
+-- 18.  사원명의 첫 글자가 ‘A’이고, 처음과 끝 사이에 ‘LL’이 들어가는 사원의 커미션이 COMM2일때,
+-- 		모든 사원의 커미션에 COMM2를 더한 결과를 사원명, COMM, COMM2, COMM+COMM2로 출력하라.
+select ename,ifnull(comm,0),comm2,ifnull(comm,0)+comm2
+from emp e,(select comm comm2
+			from emp
+			where ename like 'A%' and ename like '%LL%') a;
+
+-- <<1>> EMP와 DEPT TABLE을 JOIN하여 부서 번호, 부서명, 이름, 급여를 출력하라.
+-- <<2>> 이름이 'ALLEN'인 사원의 부서명을 출력하라.
+-- <<3>> EMP Table의 데이터를 출력하되 해당사원에 대한 상관번호와 상관의 성명을 함께 출력하라.
+-- <<4>> DEPT Table 에는 존재하는 부서코드이지만 해당부서에 근무하는 사람이 존재하지 않는 경우의 결과를 출력하라.              
+-- <<5>> 'ALLEN'의 직무와 같은 사람의 이름, 부서명, 급여, 직무를 출력하라.
+-- <<6>> 'JONES'가 속해있는 부서의 모든 사람의 사원번호, 이름, 입사일자, 급여를 출력하라.
+-- <<7>> 전체 사원의 평균 임금보다 많은 사원의 사우너번호, 이름, 부서명, 입사일, 지역, 급여를 출력하라.
+-- <<8>> 10번 부서 사람들 중에서 20번 부서의 사원과 같은 업무를 하는 사원의 사원번호, 이름, 부서명, 입사일, 지역을 출력하라.
+   
+-- <<9>> 10번 부서 중에서 30번 부서에는 없는 업무를 하는 사원의 사원번호, 이름, 부서명, 입사일자, 지역을 출력하라.
+
+   
+-- <<10>> 10번 부서에 근무하는 사원의 사원번호, 이름, 부서명, 지역, 급여를 급여가 많은 순으로 출력하라.
+  
+  
+-- <<11>> 'MARTIN'이나 'SCOTT'의 급여와 같은 사원의 사원번호, 이름, 급여를 출력하라.
+
+-- <<12>> 급여가 30번 부서의 최고 급여보다 높은 사원의 사원번호, 이름, 급여를 출력하라.
+
+  
+-- <<13>> 급여가 30번 부서의 최저 급여보다 높은 사원의 사원번호, 이름, 급여를 출력하라
