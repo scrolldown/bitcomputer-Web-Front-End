@@ -55,12 +55,12 @@ insert into tb_board(title, contents, userid)
 values('title04','contents04','user03');
 
 
-select * from tb_user;
+select * from tbtb_board_user;
 select * from tb_board;
 
 
 update tb_user set
-userpw = '5678'
+userpw = '1234'
 where userid='user01';
 
 delete from tb_board
