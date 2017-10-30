@@ -1,0 +1,96 @@
+createIndex : 인덱스 생성
+dropIndex   : 인덱스 삭제
+
+reIndex     : 인덱스 재배치(중요) -> 인덱스를 삭제 후 다시 만들기
+getIndexes  : 현재 컬렉션의 인덱스 정보 보기
+
+sort, limit : 성능 향상에 많은 도움을 준다.
+
+//1) Single-Key Index 단일 인덱스
+db.employees.createIndex({empno:1});// 숫자가 작은것 부터 검색함
+
+//2) Compound Key Index 복합 인덱스
+// 정렬의 기준을 잘 맞춰야 한다.
+//  첫 번째로 empno로 정렬, 정렬된 결과물을 가지고 deptno 역순으로 정렬
+db.employees.createIndex({empno:1, deptno : -1});
+
+
+//3) Unique Key, Non-Unique Key
+// 기본적으로 인덱스를 만들게 되면 Non-Unique Key 옵션으로 생성된다.
+// Unique Key로 설정하면 해당 필드가 유일한 키가 되기 때문에 중복된 데이터를 삽입 할 수 없다.
+
+db.employees.createIndex({empno:1},{unique:true})	//empno를 unique key로 만들기
+//애초에 중복된 데이터가 들어있는 필드에는 unique 설정 불가능
+db.employees.insert({empno:7369, ename:"ADAMS"}); -> EMPNO가 이미 존재하면 에러
+
+//4) Sparse 인덱스
+// 검색 대상 필드 값이 전체 컬렉션에서 차지하는 밀도가 낮은 경우(필드 자체가 많이 없을 경우) 유리함
+
+//comm 필드의 인덱스를 sparse 인덱스로 만들어 놓고 사용
+// 상황 : comm 필드가 전체 도큐먼트에 비해 많이 없다.(밀도가 낮다)
+db.employees.createIndex({comm:1},{sparse:true})
+
+//5) Partial 인덱스
+특정 필드에서 조건을 만족하는 데이터를 검색 후에 그 조건에서 다시 특정값만 가진 데이터들을 추가로 조건검색을 하는 경우 사용하면 좋다.
+db.employees.find({deptno:10, sal:{$gt:2000}})
+
+//deptno, ename 필드로 검색시, sal가 $gt:500 이상으로 검색이 되면 추가 인덱스 발동
+db.employees.createIndex({deptno:1,ename:1},{partialFilterExpression:{sal:{$gt:500}}})
+
+db.employees.find({deptno:10,sal:{$gt:{2000}}) -> partial 인덱스 작동
+db.employees.find({deptno:10}) 		       -> partial 인덱스 작동안함
+db.employees.find({deptno:20}, sal:{$lt:{2000}}) X
+
+//지도 Geometry
+//mongoDB에서는 geoJSON을 사용 할 수 있다.
+// 전세계 나라별 좌표를 JSON 형태로 만들어 놓은 자료
+//2차원 인덱스
+
+//1) GeoSpatial 인덱스
+ -> 2차원 형태의 지도에서 좌표를 효과적으로 찾을수 있게 해주는 인덱스
+
+// for(var i = 0; i < 100; i++) db.spatial.insert({pos:[i%10, Math.floor(i/10)]});
+
+db.spatial.createIndex({pos:"2d"})	//pos 필드를 2d좌표로 인식 할 수 있도록
+
+$near
+db.spatial.find({pos:{$near:[5,5]}}, {_id:0, pos:1}).limit(9) //5,5 기준으로 가장 가까운 좌표 표시
+
+$center
+//5, 5를 기준으로 범위 2 내의 <<원>>에 있는 좌표 출력
+//$within : 범위내의 자료들을 포함 할 때 사용된다.
+db.spatial.find({pos:{ $within:{$center:[ [5, 5], 2]}}}, {_id:0})
+
+$box
+//5,5 를 시작으로 6,6까지 네모 박스를 그리고 그안에 포함된 모든 좌표를 검색
+//                                   시작점  끝점
+db.spatial.find({pos:{ $within:{$box:[[5,5],[6,6]]}}}, {_id:0})
+
+$polygon
+db.spatial.find({pos:{ $within:{$polygon:[[3,3],[5,7],[7,4]]}}})
+
+
+//전화통화 위치추적 검색
+db.tel_pos.save({ mobile_no : "01033334444",
+		  last_pos  : [
+				[ 127.1353452, 37.4576521],  
+				[ 127.1359081, 37.4512311], 
+				[ 125.7823091, 36.3339801] 
+		              ]
+})
+
+db.tel_pos.save({ mobile_no : "01055556666",
+		  last_pos  : [
+				[ 126.3411234, 36.1098761],
+				[ 124.3410922, 37.3409901],
+				[ 127.2223331, 37.0912090] 
+		              ]
+})
+
+
+//db.tel_pos.createIndex({last_pos:"2d"}); //인덱스 부여
+
+//성수대교 좌표 기준으로 3마일 내 통화기록 찾기
+db.tel_pos.find({last_pos:{$within:{$centerSphere:[[127.0352915, 37.5360206], 30/3963]}}})
+
+

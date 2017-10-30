@@ -1,0 +1,32 @@
+//1) 주별 인구가 제일 많은곳과 작은 곳
+// db.zipcode.aggregate([
+//     { $group:
+//         { _id:"$state", max_pop:{$max:"$pop"}, min_pop:{$min:"$pop"}}
+//     }
+// ])
+//2) 주별 인구수의 합이 제일 많은 곳과 작은곳의 차
+// db.zipcode.aggregate([
+//     { $group:
+//         { _id:"$state", sum_pop:{$sum:"$pop"}}
+//     },
+//     { $group:
+//         { _id:0, max_pop : {$max:"$sum_pop"}, min_pop : {$min:"$sum_pop"}}
+//     },
+//     { $project:
+//         { _id:new ObjectId(), subtract_pop : {$subtract:["$max_pop", "$min_pop"]}}
+//     }
+// ])
+//3) NEW YORK에서 인구수가 제일 많은 곳의 zipcode
+// db.zipcode.aggregate([
+//         { $match: {city : "NEW YORK"} },
+//         { $project: {pop:"$pop", zipcode:"$_id"} },
+//         { $sort: {pop : -1}},
+//         { $limit:1 }
+// ])
+
+//4) 주별 인구수 평균
+db.zipcode.aggregate( [
+   { $group: { _id: { state: "$state", city: "$city" }, pop: { $sum: "$pop" } } },
+   { $group: { _id: "$_id.state", avgCityPop: { $avg: "$pop" } } }
+]);
+

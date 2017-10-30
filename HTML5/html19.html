@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>radio, checkbox</title>
+</head>
+<body>
+    <form>
+        <fieldset>
+            <legend>라디오 버튼</legend>
+            <ul>
+               <!-- label을 radio버튼과 조합하면 label을 눌러도 radio가 선택이 됨. -->
+               <!-- radio 버튼을 구분하는 것은 value, 몇개중 하나로 선택하고 싶으면 그 몇개의 name을 같게함 -->
+               <!-- 만약 name값이 다르면 선택이 다중으로 할 수 있음. -->
+                <li><label>
+                    <input type="radio" value="sel1" name="rg"> 선택 1
+                </label></li>
+                
+                <li><label>
+                    <input type="radio" value="sel2" name="rg"> 선택 2
+                </label></li>
+                
+                <li><label>
+                    <input type="radio" value="sel3" name="rg"> 선택 3
+                </label></li>
+            </ul>
+        </fieldset>
+        
+        
+        <fieldset>
+            <legend>체크박스</legend>
+            <ul>
+                <li>
+                    <label for="checkbox1">선택 1</label>
+                    <input type="checkbox" value="chk1" id="checkbox1">
+                </li>
+                
+                <li>
+                    <label for="checkbox2">선택 2</label>
+                    <input type="checkbox" value="chk2" id="checkbox2">
+                </li>
+                
+                <li>
+                    <label for="checkbox3">선택 3</label>
+                    <input type="checkbox" value="chk3" id="checkbox3">
+                </li>
+            </ul>
+        </fieldset>
+    </form>
+
+
+</body>
+</html>

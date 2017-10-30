@@ -1,0 +1,29 @@
+// db.position.insert({_id:"m12901", 
+//                     loc : { type : "Point",
+//                             coordinates : [127.1224733, 37.5239739]
+//                           },
+//                     pos_name : ["add_name=올림픽 수영장", "add_type=Public Sport"]})
+// db.position.insert({_id:"m12902", 
+//                     loc : { type : "Point",
+//                             coordinates : [127.1224733, 37.5239739]
+//                           },
+//                     pos_name : ["add_name=카페", "add_type=Cafe"]})
+//                     
+db.position.find({
+    loc:{ 
+            $geoWithin:{	//범위 내부의 데이터 탐색하기
+                        $geometry:{
+                            type:"Polygon",		//면 형태로 검색
+                            coordinates:[[[127.1261076,37.5191452],     //Start Point
+                                              [127.1220412,37.5221428],
+                                              [127.1224733,37.5239739],     
+                                              [127.1269535,37.5231093],
+                                              [127.1290333,37.5179105],
+                                              [127.1239271,37.5116750],
+                                          [127.1261076,37.5191452]      //End Point(eq Start Point)
+                            ]]
+                        }
+                    }
+        
+        }
+    })

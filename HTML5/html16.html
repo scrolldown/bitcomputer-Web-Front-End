@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>input, form</title>
+</head>
+<body>
+
+    <!--        Client         -->
+    <!--         |  ▲          -->
+    <!--  form,a |  | response -->
+    <!--(request)|  |          -->
+    <!--         ▼  |          -->
+    <!--        Server         -->
+    
+    <div>
+        form 태그를 사용하여 사용자가 직접 데이터를 입력 해서 서버에 요청 할 수 있다.<br/>
+        예를들어 id와 pw를 입력하여 서버에 로그인을 요청하는 경우
+    </div>
+    
+    <!-- action : 전송(요청) 할 url -->
+    <!-- method : 방식 get (url 뒤에 붙여서 전송 ex.queryString), post (url 뒤에 붙이지 않는 방식.) -->
+    <form>
+       <ul>
+           <li> 이름 : <input type="text" id="username"/></li>
+           <li> 비번 : <input type="password" id="userpw"/></li>
+           <li> 메일 : <input type="email" id="email"/></li>
+           <li><input type="submit" value="가입하기"></li>
+            <!-- submit 버튼은 action에 지정된 위치로 이동하게 해줌 -->
+            <li><input type="reset" value="다시 입력"></li>
+       </ul>
+        
+    </form>
+</body>
+</html>

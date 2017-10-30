@@ -1,0 +1,256 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    <style>
+        #center-align-parent-div{
+            /* 일반적인 가운데 정렬을 사용 할 때 사용한다.*/
+            text-align: center;
+            background-color: yellow;
+        }
+        
+        /* 안보이는 helper를 두고 가운데 정렬을 하는 방법
+        ┌ helper-vertical-align-test ───────────────┐ 
+        │ ┌─── helper-vertical-align-parent-div ──┐ │ 
+        │ │┌┐             ┌────────┐              │ │
+        │ │││             └────────┘              │ │
+        │ │││                top                  │ │
+        │ │││┌────────┐                           │ │
+        │ │││└────────┘                           │ │
+        │ │││  middle                             │ │
+        │ │││                           bottom    │ │
+        │ │││<-helper                  ┌────────┐ │ │
+        │ │└┘                          └────────┘ │ │
+        │ └───────────────────────────────────────┘ │
+        └───────────────────────────────────────────┘
+        */
+        /* helper를 이용한 정렬은 약간의 margin이 각각 들어가게 된다는 단점이 있다.*/
+        #helper-vertical-align-parent-div {
+            background-color: greenyellow;
+            height:100px;
+        }
+        
+        /* 원래는 helper가 없어야 하지만, 여기서는 helper를 보이기 위해 width를 줌 (원랜 없음)*/
+        #helper{
+            display: inline-block;
+            height:100%;
+            width:50px;
+            background-color: forestgreen;
+            vertical-align: middle;
+        }
+        #helper-vertical-align-child-div1{
+            vertical-align: middle;
+            display: inline-block;
+            background: red;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #helper-vertical-align-child-div2{
+            vertical-align: top;
+            display: inline-block;
+            background: blue;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #helper-vertical-align-child-div3{
+            vertical-align: bottom;
+            display: inline-block;
+            background: green;
+            margin: 0;
+            padding: 0;
+        }
+        
+        
+        /* 가상의 table을 만들어서 정렬하는 방법
+        ┌ table-vertical-align-parent-div ──────────┐ 
+        │             │┌────────────┐│              │ 
+        │             │└────────────┘│              │
+        │             │      top     │              │
+        │             │              │              │
+        │    middle   │              │              │
+        │┌───────────┐│              │              │
+        │└───────────┘│              │              │
+        │             │              │              │
+        │             │              │    bottom    │
+        │             │              │┌────────────┐│
+        │             │              │└────────────┘│
+        └───────────────────────────────────────────┘
+        */
+        /* 테이블은 helper 정렬의 단점인 약간의 margin을 없앨 수 있다.*/
+        /* 하지만 테이블 정렬은 cell의 크기 조절이 안되는 단점이 있음.*/        
+        #table-vertical-align-parent-div{
+            background-color: greenyellow;
+            height: 100px;
+            display:table;
+        }
+        
+        #table-vertical-align-child-div1{
+            vertical-align: middle;
+            display:table-cell;
+            background: red;
+        }
+        
+        #table-vertical-align-child-div2{
+            vertical-align: top;
+            display:table-cell;
+            background: green;
+        }
+        
+        #table-vertical-align-child-div3{
+            vertical-align: bottom;
+            display:table-cell;
+            background: blue;
+        }
+        
+        
+        /* transform 으로 정렬하는 방법 */
+        /* inline-block을 사용하기 때문에 약간의 margin이 있다.*/
+        #transform-vertical-align-parent-div {
+            background-color: greenyellow;
+            height: 100px;
+        }
+        
+        .transform-vertical-align-child-div {
+            vertical-align: middle;
+            /* display: inline-block; */
+            float:left;
+            
+            /* float: left;*/
+            position: relative;
+            top: 50%; /* transform-parent-div의 왼쪽 위를 기준으로
+                         50%가 child-div의 왼쪽위가 됨. --> 살짝 내려가있는 느낌*/            
+            transform: translateY(-50%); /* translateY -(음수:위쪽으로) 절반 위로 올리므로 가운데가 됨.*/
+            background: skyblue;
+        }
+        
+        
+        
+        /* float으로 정렬하는 방법 */
+        #float-test1 .float-left{
+            float:left;
+            background-color: yellow;
+        }
+        
+        #float-test1 .float-default{
+            background-color: skyblue;
+        }
+        
+        /* float:right 속성 : 해당하는 엘리먼트를 이전에 배치 된
+                             엘리먼트의 오른쪽에 위치시켜 주는 역할을 하게 된다.*/
+        #float-test1 .float-right{
+            float: right;
+            background-color: forestgreen;
+        }
+        
+        #float-test1 .clear-float{
+            /* clear:left 는 왼쪽에 있는 float을 모두 무시하겠다.라는 의미 */ 
+            clear: left; /* both : 양쪽 전부다 float 삭제, right: 오른쪽 삭제 */
+            background-color: skyblue;
+        }
+        
+        .float-child {
+            float:left;
+        }
+        
+        .float-parent {
+            background-color: fuchsia;
+        }
+        
+        .float-parent-overflow{
+            overflow: hidden;
+            background-color: lightgoldenrodyellow;
+            clear: both;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div id="text-center-align-test">
+        <div id="center-align-parent-div">
+            <div id="center-align-child-div">
+                This is child div - text center align
+            </div>
+            This is parent div - text center align
+        </div>
+    </div>
+    <br/>
+    
+    <div id="helper-vertical-align-test">
+        <div id="helper-vertical-align-parent-div">
+            <div id="helper">helper</div>
+            <div id="helper-vertical-align-child-div1">
+                헬퍼를 사용한 vertical-align : middle
+            </div>
+            <div id="helper-vertical-align-child-div2">
+                헬퍼를 사용한 vertical-align : top
+            </div>
+            <div id="helper-vertical-align-child-div3">
+                헬퍼를 사용한 vertical-align : bottom
+            </div>
+        </div>
+    </div>
+    <br/>
+    
+    <div id="table-cell-vertical-align-test">
+        <div id="table-vertical-align-parent-div">
+            <div id="table-vertical-align-child-div1">
+                테이블 효과를 사용한 vertical-align : middle
+            </div>
+            <div id="table-vertical-align-child-div2">
+                테이블 효과를 사용한 vertical-align : top
+            </div>
+            <div id="table-vertical-align-child-div3">
+                테이블 효과를 사용한 vertical-align : bottom
+            </div>
+        </div>
+    </div>
+    <br/>
+    
+    <div id="transform-vertical-align-test">
+        <div id="transform-vertical-align-parent-div">
+            <div class="transform-vertical-align-child-div">
+                Transform css를 활용한 vertical-align : middle
+            </div>
+            <div class="transform-vertical-align-child-div">
+                Transform css를 활용한 vertical-align : middle
+            </div>
+        </div>
+    </div>
+    
+    <!-- float: 차지하는만큼 띄우기                                 -->
+    <!--       ==> 다음에 배치될 요소들이 띄워진 나머지 공간을 채운다.  -->
+    
+    <div id="float-test1">
+        <div class="float-left"> float left </div>
+        <div class="float-default"> float default </div>
+        <div class="float-right"> float right </div>
+        
+        <div class="float-left"> float left DIV </div>
+        <div class="clear-float"> clear float - float 효과가 사라진다. </div>
+    </div>
+    
+    <div id="float-test2">
+        <div class="float-parent">
+            <div class="float-child">float child 1</div>
+        </div>
+        <div class="float-parent-overflow">
+            <div class="float-child">float child 2</div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

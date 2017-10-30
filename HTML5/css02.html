@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    <style>
+        /* id 선택자*/
+        #p1{
+            color: blue;
+        }
+        
+        /* class 선택자 */
+        .pclass{
+            color:red;
+        }
+        
+        /* class 명 사이에 공백을 두면 두개의 클래스를 지님.*/
+        .pclass2{
+             background-color: aqua;
+        }
+        
+        /* 태그 선택자 */
+        h3{
+            color:green;
+        }        
+        
+        /* 선택자 우선순위 id > class > 태그 */        
+        p{
+            color:white;
+        }
+        
+        /* 전체 선택자 */
+        * {
+            font-style:italic;
+        }
+    </style>
+    
+</head>
+<body>
+
+
+
+<p id="p1">내용1</p>
+<p class="pclass">내용2</p>
+<!-- 2개 이상의 css 를 적용하고 싶으면 class 명을 띄우면 됨. -->
+
+<p class="pclass pclass2">내용3</p>
+
+<!-- class,id가 부여되어도 tag 선택자가 있으면 해당됨. -->
+<h3>내용4</h3>
+<h3 class="h3class">내용5</h3>
+<h3 id="my_h3">내용6</h3>
+
+</body>
+</html>

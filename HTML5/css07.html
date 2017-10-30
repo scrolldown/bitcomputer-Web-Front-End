@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    <style>
+        .container{
+            height: 1000px;
+            width: 300px;
+            position: relative;
+            background-color: lightgray;
+        }
+        #box1{
+            width:100px;
+            height:100px;
+            display: inline-block;
+            background-color: red;
+            position: relative;
+            top: 100px;
+            left: 300px;
+        }
+        
+        #box2{
+            width:100px;
+            height:100px;
+            display: inline-block;
+            background-color: green;
+            position: absolute;
+            right: 150px;
+            /* absolute를 적용하면 부모인 container(relative)를
+               기준으로 오른쪽으로 150px 만큼 떨어져 있을 것임.
+               부모가 relative가 아니라면 화면의 가장 오른쪽이 기준이 됨.
+                absolute는 fixed랑 헷갈림*/
+        }
+        
+        #box3{
+            width:100px;
+            height:100px;
+            display: inline-block;
+            background-color: blue;
+            position: fixed;
+            top: 150px;
+            left: 150px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="box1">box 1 - relative</div>
+        <div id="box2">box 2 - absolute</div>
+        <!-- absolute를 사용하기 위해서는 부모가 relative가 되야함. -->
+        
+        <div id="box3">box 3 - fixed</div>
+    </div>
+
+</body>
+</html>

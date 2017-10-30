@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>label 사용</title>
+    
+    <style>
+        li label{
+            width:120px;
+            float:left;
+            font-size:12px;
+            font-weight:bold;
+            color: blue;
+            line-height: 25px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <form>
+       <!-- label의 장점 : label(아이디입력,비밀번호입력)을 누르면 -->
+       <!--               해당 label의 input이 자동 선택됨 ㅋㅋ  -->
+        <label>아이디 입력 : <input type="text" id="userid"></label>
+        <label>비밀번호 입력 : <input type="password" id="userpw"></label>
+        <input type="submit" value="로그인">
+    </form>
+    
+    <form>
+       <ul>
+           <li>
+               <!-- for 속성 : 이 label이 id를 위한 label이라는 것을 명시해줌 -->
+               <!--           원래는 id 속성이 겹치면 안되지만 for는 겹쳐도 됨. -->
+                <label for="userid"> 아이디 입력 :</label>
+                <input type="text" id="userid">
+            </li>
+            <li>
+                <label for="userpw">비밀번호 입력 :</label>
+                <input type="password" id="userpw">
+            </li>
+       </ul>
+        
+    </form>
+
+
+</body>
+</html>

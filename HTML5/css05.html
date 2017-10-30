@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>INLINE, BLOCK 속성의 차이</title>
+    <style>
+        /* block 속성인 div는 하나의 block을 차지하고있다.
+           (따라서 Bye는 밑으로 내려가게 된다.) */
+        div{
+            width:100px;
+            height:100px;
+            background-color: red;
+            margin: 10px;
+            padding: 30px;
+            
+            /* margin : 바깥쪽과의 거리를 의미
+                padding : 안쪽과의 거리를 의미*/
+            color:white;
+        }
+        
+        span{
+            background-color: cyan;
+            /* span은 inline요소이므로 width,height 값을 주어도 적용이 되지 않는다. */
+            width: 100px;
+            height: 100px;
+            
+            /* 하지만 padding, margin은 적용이 됨. */
+            margin: 30px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        hello
+    </div>
+    <span>Bye</span>
+    <span>Bye</span>
+    <span>Bye</span>
+</body>
+</html>

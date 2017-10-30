@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>후손(하위) 선택자</title>
+    
+    <style>
+        /* div1의 id 선택자 -> ul 태그 선택자 */
+        /* 후손 선택자 */
+        /*
+        #div1 ul {
+            border:1px solid black;
+        }*/
+        /* 1.이 속성은 div1 속 p에는 적용되지 않음.
+           2. 모든 ul 후손을 선택하는 경우 */
+        
+        /* DOM 구조  - 후손
+                               #div1
+                                 │
+                        ┌────────┴─────────────┐
+                ┌───────ul─────────────────┐   p
+                │  ┌──┬──┴───┬──────┐      │
+                │ li  li    li     li      │ 
+                │                   │      │
+                │                  ul      │
+                │              ┌────┼───┐  │
+                │              li   li  li │
+                └──────────────────────────┘
+        */
+        
+        /* 자식 선택자 */        
+        #div1 > ul {
+            border:1px solid black;
+        }
+        /* 1.이 속성은 div1 속 p에는 적용되지 않음.
+           2. div1 id의 자식 ul만 선택하는 경우 */
+        /* DOM 구조  - 자식
+                               #div1
+                                 │
+                        ┌────────┴─────────────┐
+                ┌───────ul─────────────────┐   p
+                │  ┌──┬──┴───┬──────┐      │
+                │ li  li    li     li      │ 
+                └───────────────────┼──────┘
+                                   ul      
+                               ┌────┼───┐  
+                               li   li  li 
+        */
+        
+        #div1 p{
+            color:green;
+        }
+        
+        /* ------형제선택자 ------- */
+        /* +는 바로 다음의 형제(동생)만 선택*/
+        #div2 h2 + p {
+            color:red;
+        }
+        
+        /* ~는 모든 형제를 선택*/
+        #div2 h2 ~ p{
+            background-color: aquamarine;
+        }
+    </style>
+    
+    
+</head>
+<body>
+    <div id="div1">
+        <ul>
+            <li>내용1</li>
+            <li>내용2</li>
+            <li>내용3</li>
+            <li>
+                <ul>
+                    <li>4-1</li>
+                    <li>4-2</li>
+                    <li>4-3</li>
+                </ul>
+            </li>
+        </ul>
+        <p>문단1</p>
+        
+    </div>
+    
+    <div id="div2">
+        <h2>제목2</h2>
+        <p>문단2-1</p>
+        <p>문단2-2</p>
+    </div>
+
+</body>
+</html>

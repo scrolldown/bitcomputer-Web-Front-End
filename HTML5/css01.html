@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CSS</title>
+    
+    <style>        
+        /* .은 class를 의미 */
+        .container{
+            background-color: red;
+            color:white;
+        }
+        
+        /* #은 id를 의미 */
+        #my_h1{
+            
+        }
+        
+        /* 아무것도 없으면(공백) 태그를 의미 */
+        li{
+            
+        }
+    </style>
+</head>
+<body>
+    <!--                     Container                                -->
+    <!--                         │                                    -->
+    <!--    ┌────────────────┬───┴───────┬────────┐                   --> 
+    <!--  h1(#my_h1)      ul(#my_ul)    span     span <== 형제 관계    -->
+    <!--               ┌─────┴───┬──────┐                             --> 
+    <!--              li        li     li                             -->
+    <!--                         │                                    --> 
+    <!--                         a                                    --> 
+    <!--                   (a는 Container의 후손)                      -->
+    
+    <!-- Style도 상속이 가능하다. -->
+    <!-- Class는 스타일을 적용시킬 때 굉장히 많이 사용 -->
+    <!-- ** Class는 id와 다르게 중복이 가능 ** -->
+        
+    <!-- <div class="container" style="background-color: red;"> ==> style을 명시하면 style 강제 지정 -->
+    
+    <div class="container">
+        <h1 id="my_h1">title</h1>
+        <ul id="my_ul">
+            wow
+            <li>Item 1</li>
+            <li><a href="#" id="my_a1">Item 2 - Link!</a></li>
+            <li><a href="https://www.naver.com" id="my_a2">Item 3 - Link!</a></li>
+        </ul>
+        
+        <span id="my_span1" title="title1"> SPAN1</span>
+        <span id="my_span2" title="title2"> SPAN2</span>
+        <input id="my_input1" type="text" value="readonly text box" readonly>
+        <input id="my_input2" type="text" value="not readonly text box">
+        <input type="checkbox" checked>
+        <input type="checkbox">
+    </div>
+
+</body>
+</html>

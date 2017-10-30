@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    
+    <style>
+        /* 속성 선택자 [] : []안의 내용을 속성으로 가지고 있으면 선택됨.*/
+        [title]{
+            color:red;
+        }
+        
+        span[title='title1']{/* span 속 title이 title1일 경우 선택됨.*/
+            background-color: yellow;
+        }
+        
+        /* :(콜론)은 기능적인 선택자.*/
+        span[title='title2']:hover{
+            background-color: darkgray;
+        }
+    </style>
+    
+</head>
+<body>
+    <span title="title1">Span1</span><br/>
+    <span title="title2">Span2</span>
+</body>
+</html>

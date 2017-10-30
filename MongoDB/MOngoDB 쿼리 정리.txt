@@ -1,0 +1,68 @@
+
+create database demo_emp   ->  use demo_emp
+create table emp           ->  x
+alter table add constraint ->  x
+drop table emp             ->  db.emp.drop();
+
+insert into emp            ->  db.emp.insert({...});
+
+select * from emp          ->  db.emp.find();
+select * from emp where    ->  db.emp.find({조건문서})
+select empno from emp      ->  db.emp.find({}, {empno:1});
+
+where sal >= 1000          ->  sal:{$gte:1000}
+where sal <= 1000          ->  sal:{$lte:1000}
+where sal <  1000          ->  sal:{$lt :1000}
+where sal >  1000          ->  sal:{$gt :1000}
+where sal = 1000           ->  sal:1000  또는  sal : {$eq : 1000}
+where sal <> 1000          ->  sal:{$ne:1000}
+
+where deptno in (10,20)    ->  deptno:{$in:[10,20]}
+where deptno not in (10)   ->  deptno:{$nin:[10]}
+
+where sal >= 1000          ->  { sal : {$gte: 1000, $lte : 2000} }
+and   sal <= 2000
+
+
+where sal >= 1000          ->  { sal : {$gte: 1000, $lte : 2000} , deptno : 10 }
+and   sal <= 2000
+and   deptno = 10
+
+
+where (deptno = 10 or deptno = 20)    ->  { $or:[ {deptno:10}, {deptno:20} ], sal:{$gte:2000}  }
+and   sal >= 2000
+
+
+select count(*) from emp              -> db.emp.count();
+
+select count(*)                       -> db.emp.find({empno:{$gt:7900}}).count();
+from emp
+where empno > 7900;
+
+
+select *
+from emp
+order by deptno;		      -> db.emp.find().sort( { deptno : 1} );
+
+select distinct deptno                -> db.emp.distinct("deptno");
+from emp;
+
+where ename like '%A%'                -> db.emp.find({ename:/A/})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,33 @@
+
+////////////DBRef방식
+
+
+// o = db.ord.insert({
+//     ord_id		:	"2017-04-28-012345",
+//     customer_name	:	"Bit Academy",
+//     emp_name	        :	"Minho So",
+//     total		:	"55000",
+//     payment_type	:	"Cash",
+// })
+// 
+// o = db.ord.findOne({ord_id:"2017-04-28-012345"})
+// 
+// db.ord_detail.insert( { ord_id : o.ord_id , 
+//                         item_id	:	[{ item_id		:	"1",
+//                                            product_name	        :	"Monami",
+//                                            item_price		:	500,
+//                                            qty		        :	100,
+//                                            price		:	50000},
+// 
+//                                         { item_id		:	"2",
+//                                           product_name	        :	"A4",
+//                                           item_price		:	50,
+//                                           qty		:	100,
+//                                           price		:	5000}
+//                                         ],
+//                          order_id : [new DBRef("ord", o._id)] //특별한 이름을 붙임(ord). 이제 안쓰임
+//                                       
+// } )
+db.ord_detail.find();
+// db.ord.drop()
+// db.ord_detail.drop()

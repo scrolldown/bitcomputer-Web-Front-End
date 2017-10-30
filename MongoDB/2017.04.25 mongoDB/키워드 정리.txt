@@ -1,0 +1,50 @@
+비교(Comparison) 연산자
+$eq		(equals) 주어진 값과 일치하는 값
+$gt		(greater than) 주어진 값보다 큰 값
+$gte		(greather than or equals) 주어진 값보다 크거나 같은 값
+$lt		(less than) 주어진 값보다 작은 값
+$lte		(less than or equals) 주어진 값보다 작거나 같은 값
+$ne		(not equal) 주어진 값과 일치하지 않는 값
+$in		주어진 배열 안에 속하는 값
+$nin		주어진 배열 안에 속하지 않는 값
+
+논리 연산자
+$or		주어진 조건중 하나라도 true 일 때 true
+$and		주어진 모든 조건이 true 일 때 true
+$not		주어진 조건이 false 일 때 true
+$nor		주어진 모든 조건이 false 일때 true
+
+Aggregation Framework연산자
+$project	표시할 데이터( select )
+$match		표시할 데이터들의 조건절( where )
+$group		Field 별 데이터 묶기( group by)
+$sort		정렬하기( order by)
+$limit		데이터 표시 갯수
+$skip		표시 할 데이터 제외
+
+Aggregate Framework 변경연산자 - 데이터의 결과 변경
+
+$add		두개의 값을 합산함
+$devide		두개의 값을 나눈 결과
+$mod		첫 번째 값을 두 번째 값으로 나눈 나머지값
+$multiply	두개의 값을 곱한 결과
+$subtract	두개의 값 뺄셈 결과
+$ifNull		널검사,(NVL)
+  -> $ifNull: [ "$comm", 0]=> comm이 null이면 0, 아니면 원래 값
+$substr		문자열 자르기
+  -> $substr: [ "$ename",1,2] => 이름을 첫번째 부터 2바이트 자르기
+$toLower	문자열을 소문자로
+$toUpper	문자열을 대문자로
+$strcasecmp 	문자열 비교 후 같으면 1, 다르면 -1
+  -> $strcasecmp : ["$ename","MINHO"] -> ename이 MINHO면 1, 다르면 -1
+
+
+
+
+
+
+
+
+
+
+

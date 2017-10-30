@@ -1,3 +1,13 @@
+-- PK (Primary Key) : 고유키, 기본키
+-- 					  중복 불가
+-- 					  NULL 값 허용 안함
+-- 					  함부로 삭제하면 무결성 제약조건 위배
+-- 					  
+
+-- FK (Foreign Key) : 외래키, 참조키
+-- 					  중복 가능
+-- 					  
+
 CREATE TABLE EMP(
    empno      INTEGER NOT NULL,
    ename       VARCHAR(10),
@@ -22,6 +32,7 @@ CREATE TABLE SALGRADE(
 );
 
 -- Primary Keys
+-- 제약조건 추가로 PK 설정
 ALTER TABLE EMP
    ADD CONSTRAINT emp_pk
    PRIMARY KEY (empno);
@@ -35,10 +46,13 @@ ALTER TABLE SALGRADE
    PRIMARY KEY (grade);
 
 -- EMPLOYEE to DEPARTMENT
+-- FK 설정으로 두 테이블을 엮음
+
 ALTER TABLE EMP
    ADD CONSTRAINT department
    FOREIGN KEY (deptno)
    REFERENCES DEPT (deptno);
+-- DEPT테이블의 deptno 컬럼을 참조하겠다. deptno가 미리 PK로 지정되어있어야 함.
 
 -- EMPLOYEE to EMPLOYEE
 ALTER TABLE EMP
@@ -66,6 +80,9 @@ INSERT INTO EMP VALUES(7844, 'TURNER', 'SALESMAN',  7698, '1981-09-08',  1500,  
 INSERT INTO EMP VALUES(7900, 'JAMES',  'CLERK',     7698, '1981-12-03',   950, NULL, 30);
 INSERT INTO EMP VALUES(7782, 'CLARK',  'MANAGER',   7839, '1981-06-09',  2450, NULL, 10);
 INSERT INTO EMP VALUES(7934, 'MILLER', 'CLERK',     7782, '1982-01-23', 1300, NULL, 10);
+INSERT INTO EMP VALUES(7785, 'AA', 'CLERK',     7782, '1982-04-23', 1300, NULL, 10);
+INSERT INTO EMP VALUES(7234, 'BB', 'CLERK',     7782, '1982-03-23', 1300, NULL, 10);
+INSERT INTO EMP VALUES(7674, 'CC', 'CLERK',     7782, '1982-02-23', 1300, NULL, 10);
  
 INSERT INTO SALGRADE VALUES (1,  700, 1200);
 INSERT INTO SALGRADE VALUES (2, 1201, 1400);

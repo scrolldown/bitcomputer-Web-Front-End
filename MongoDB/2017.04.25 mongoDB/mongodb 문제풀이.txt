@@ -1,0 +1,55 @@
+1. select * from employees where job = 'CLERK' and sal >=1000
+-> db.employees.find({$and: [{job: "CLERK"}, {sal: {$gte: 1000}}]})
+
+2. select * from employees where job = 'SALESMAN' and deptno = 30;
+-> db.employees.find({$and: [{job:"SALESMAN"}, {deptno:30}]})
+
+
+3. select empno, ename, sal from employees where sal <= 1000
+-> db.employees.find({sal:{$lte:1000}}, {_id:0, empno: 1, ename: 1, sal: 1})
+
+
+4. select empno, ename, sal from employees where sal >= 1500 and sal <= 5000
+-> db.employees.find({$and: [{sal:{$gte:1500}}, {sal:{$lte:5000}}]}, {_id:0, empno : 1, ename : 1, sal : 1})
+
+
+5. select empno, ename, job from employees where deptno = 10 or deptno = 30
+-> db.employees.find({$or : [{deptno: 10}, {deptno: 30}]}, {_id: 0, empno: 1, ename: 1, job: 1})
+
+
+6. select * 
+from employees
+where (deptno = 10 or deptno = 30) and sal >= 1500
+-> db.employees.find({$and: [{$or: [{deptno: 10}, {deptno: 30}]}, {sal : {$gte:1500}}]})
+
+
+7.
+select *
+from employees
+where job != 'SALESMAN'
+order by empno asc
+-> db.employees.find({job: {$ne: "SALESMAN"}}).sort({empno: 1})
+
+
+8.
+select empno, ename, sal, job
+from employees
+where (job = 'SALESMAN' or job = 'CLERK') AND sal>=1000 AND sal <= 3500
+-> db.employees.find(
+                   {
+                       $and: [
+                                {$or: [
+                                        {job: "SALESMAN"}, {job: "CLERK"}
+                                      ]
+                                 }, {sal: {$gte: 1000}}, {sal: {$lte: 3500}}
+                       
+                             ]
+                       
+                   }, {_id: 0, empno: 1, ename: 1, sal: 1, job: 1}
+                  )
+                   
+
+
+-> 
+db.employees.find({
+    $and:[{$or:[{job:"SALESMAN"},{job:"CLERK"}]},{sal:{$gte:1000, $lte:3500}}]})
