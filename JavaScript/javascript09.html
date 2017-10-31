@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>javascript 스코프</title>
+</head>
+<body>
+    <script>
+        var a =10;
+        if(a==10){
+            document.write(a,'<br/>');
+            var b =20;
+            document.write(b,'<br/>');
+            var a = 30;
+        }        
+        document.write(b,'<br/>'); // 출력이 되므로 javascript의 스코프는 중괄호가 아님을 알 수 있음.
+        document.write(a,'<br/>'); // a가 if {}안에서 바뀌는데, 이를 hoisting 이라 한다.
+        
+        // 자바스크립트 에서의 스코프        
+        // function
+        var global_var = 'hello';
+        function foo(name, age){
+            var foo_var = 10;
+            document.write(global_var,'<br/>');
+            document.write(name,'<br/>');
+            document.write(age,'<br/>');
+        }        
+        
+        foo('a',20);
+        // document.write(foo_var,'<br/>'); // foo_var is not defined 오류 발생.
+        // document.write(name,'<br/>'); // name is not defined 오류 발생
+        // document.write(age,'<br/>'); // age is not defined 오류 발생
+        // -------------------> function이 스코프이므로.
+        
+        // with
+        // catch
+        
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>함수</title>
+</head>
+<body>
+    <script>
+        
+        // foo : 함수를 명시적으로 표시한 경우 
+        function foo(a,b){ // 리턴형 없음.
+            console.log('a : ' +a);
+            console.log('b : ' +b);
+            return a+b;
+        }
+        
+        console.log(foo(10,20));
+        console.log(foo('hello','bye'));
+        console.log(foo(10.5,11.3));
+        console.log(foo(10));//b:undefined
+        
+        // goo : 변수 goo에 이름이 없는 익명함수를 집어넣은 경우.
+        //       function에 이름이 없어서 익명함수라고 함.
+        //       NodeJS의 기본 형태
+        //       변수에 함수를 집어넣음으로써 함수의 배열화가 가능
+        var goo = function(a,b){
+            return a+b;
+        }
+        
+        console.log('goo: ',goo(10,20));
+        
+        var koo = function(a,b){
+            var result = a+b;
+            return function(){return this.result;};
+        }
+        
+        koo_result = koo(10,20);
+        console.log(koo(10,20));
+    </script>
+
+
+</body>
+</html>

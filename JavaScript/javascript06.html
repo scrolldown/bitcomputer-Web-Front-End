@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>객체</title>
+</head>
+<body>
+    <script>
+        
+        /* 
+            아래에 있는 객체들은 Person 클래스로 만든 것이 아니다.
+            Object 객체를 참고해서 만든 객체들이다.
+            Person 객체 하나만 있는 것이 아니라
+            Person 객체, Person2 객체, Person3 객체가 있다고 생각하면 됨.
+        */
+        var Person = {};
+        // 객체에 프로퍼티를 추가하는 방법
+        // 1. 대괄호 사용 (잘 사용안함)
+        Person['age'] = 10;
+        
+        // 2. 프로퍼티를 선언하고, 직접 집어넣는 방법
+        Person.name = '오종훈';
+        Person.mobile = '01012345678';
+        
+        Person.printInfo = function(){
+            console.log(this.age + ',' + this.mobile);
+        }
+        console.log(Person);
+        Person.printInfo();
+        
+        
+        // 3. 애초에 생성할때 JSON 형태로 집어넣는 방법.
+        var Person2 = {
+            age : 30,
+            name : '소민호'
+        };        
+        Person2.mobile = '01087654321';
+                
+        console.log(Person2);
+            
+        
+        var Person3 = {
+            age : 30,
+            name : '이름',
+            printInfo : function(){
+                console.log(this.age + ' ' + this.name);
+            } // 변수에 함수를 바로 할당시키는 방법을 이런식으로도 가능.
+        };
+        
+        Person3.printInfo();
+        
+        console.log(Person3.__proto__);
+        // proto : 내가 Person3를 만들기 위해 참고한 객체들을 의미
+        
+        var my_function = function(a,b){
+            return a+b;
+        }        
+        function named_function(){
+            console.log('hello');
+        }
+        // 함수를 메소드로 부여하는 방식
+        Person3.myFunction = my_function;
+        Person3.namedFunction = named_function;
+        
+        console.log(Person3);                
+        Person3.printInfo();
+        
+        
+    </script>
+</body>
+</html>

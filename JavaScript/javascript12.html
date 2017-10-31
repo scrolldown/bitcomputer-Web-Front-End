@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+</head>
+<body>
+    <div id='div0'>Click me! DIV 0</div>
+    <div id='div1'>Click me! DIV 1</div>
+    <div id='div2'>Click me! DIV 2</div>
+    <script>
+        var len =3;
+        
+        for(var i=0;i<len;i++){
+            setDivClick(i);
+        }
+        
+        function setDivClick(index) {
+            document.getElementById('div'+ index)
+                    .addEventListener('click',function(){alert('You Clicked div #'+index)},false);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>제어문</title>
+</head>
+<body>
+    <script>
+        var a = 10;
+        
+        if(a==10){
+            console.log('hello');
+        }else if (a==0){
+            console.log('bye');            
+        } else {
+            console.log('haha');
+        }
+        
+        // 사용 할 수 있는 값이 없으면 조건에서 false가 된다.
+        var b = '';
+        if(b){
+            console.log('b is true');
+        }else {
+            console.log('b is false')
+            // 0, '', null은 false가 됨 나머진 true. func(){}도 true가 된다.
+        }
+        
+        var c = 1;
+        switch (c) {
+            case 1: console.log('hello c');
+                    break;
+            case 2: console.log('bye c');
+                    break;
+            default : console.log('default c');                
+        }
+        
+        var d = 5;
+        while(d){
+            console.log('while' + (d--));
+        }
+        
+        for(var e = 0; e<5; e++){
+            console.log('for '+e);
+        }
+        
+    </script>
+
+
+</body>
+</html>

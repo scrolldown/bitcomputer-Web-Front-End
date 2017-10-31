@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>내부함수</title>
+</head>
+<body>
+    <script>
+        function sum(num){
+            var sum_result = 0;
+            function add(n1, n2) {
+                return n1 + n2;
+            }
+            
+            for (var i = 0; i <= num; i++){
+                sum_result = add (sum_result, i);
+            }
+            return sum_result;
+        }
+        
+        document.write("1-100 까지의 합 : " + sum(100));
+        // document.write('add 2,3 : ' + add(2,3)); // global 에서는 sum의 scope 안으로 접근할 수 없다. --> 오류
+        
+        /* scope
+        ┌ global ───┐
+        │┌── sum ──┐│
+        ││   num   ││
+        │└────┬────┘│
+        └─────┼─────┘
+         ┌ add┴────┐
+         │  n1,n2  │ ==> global 에서는 add 접근 불가.
+         └─────────┘
+         
+        */
+    </script>
+
+
+</body>
+</html>

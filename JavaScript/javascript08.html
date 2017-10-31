@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>프로토타입에 메소드 추가하기</title>
+</head>
+<body>
+    <script>
+        function Person(name, age){
+            this.name = name;
+            this.age = age;
+            
+            this.eat = function(what){
+                document.write(what,'을 먹었습니다.');
+            }
+        }
+        
+        Person.prototype.eat = function(what){
+            document.write(what + '을 먹습니다.');
+        }
+        var p1 = new Person('오종훈', 18);
+        
+        p1.eat('밥');
+    </script>
+</body>
+</html>

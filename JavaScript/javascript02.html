@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript 연산자</title>
+</head>
+<body>
+    <script>
+        var a = 10;
+        var b = '10';
+        
+        alert(a==b); // 값만 비교 한다. --> true
+        alert(a===b); // 값과 type까지 비교한다. --> false
+        
+        alert(a!=b); // 값이 서로 다른지만 비교한다. --> false
+        alert(a!==b); // 값뿐만 아니라 타입까지 서로 다른지 비교한다. --> true
+        
+        alert( (a==10) && (b==10) ); // true
+        alert( (a==10) && (b===10) ); // false
+        
+        alert( (a==='10') || (b==='10') ); // trueㅋㅋㅋㅋㅋ
+    </script>
+
+
+</body>
+</html>
