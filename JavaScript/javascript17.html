@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>자바스크립트 배열</title>
+</head>
+<body>
+    <script>
+        // 자바스크립트의 배열에는 자료형에 상관없이 원하는 형태의
+        // 데이터가 모두 삽입 될 수 있다.
+        var temp_arr = [1,'2',{name:'aa',age:20}];
+        var temp_function = function(){
+            console.log('hello');
+        }
+        // 함수도 배열에 포함 가능
+        temp_arr.push(temp_function);
+        
+        
+        console.log('배열의 길이 : ' + temp_arr.length);
+        
+        for(var i=0 ; i < temp_arr.length ; i++){
+            if(typeof(temp_arr[i])=='function'){
+                console.log(temp_arr[i]() );
+            } else {
+                console.log(temp_arr[i] );
+            }   
+        }
+        
+        // for each 활용 -> 비동기 콜백을 사용함
+        // 비동기 콜백 : 
+        // 배열 전체 탐색시에 많이 사용한다.
+        // 첫 번째 인자에는 배열의 원소가 전달 되고
+        // 두 번째 인자에는 해당하는 원소의 인덱스가 전달 된다.
+        temp_arr.forEach(function(item,index) {
+            console.log(item);
+        });
+        
+    </script>
+
+
+</body>
+</html>

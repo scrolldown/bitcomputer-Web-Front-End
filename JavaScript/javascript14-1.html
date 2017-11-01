@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+</head>
+<body>
+    <script>
+        function outer(){
+            var count = 0;
+            var inner = function(){
+                return ++count;
+            }
+            return inner;
+        }
+        
+        var increase1 = outer();
+        var increase2 = outer();
+        
+        document.write(increase1(),'<br/>'); // 1
+        document.write(increase2(),'<br/>'); // 2
+        document.write(increase1());
+        
+    </script>
+
+
+</body>
+</html>

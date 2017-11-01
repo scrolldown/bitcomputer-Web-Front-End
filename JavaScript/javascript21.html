@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    
+    <script>
+        window.onload = function(){ // window.onload ==> 모든 문서의 로딩이 끝난 후.
+                                    // body 쪽에 있는 모든 내용이 보여지고 나서 발생되는 이벤트
+            alert('3초후 종료');
+            // n 초뒤 매개변수로 전달된 함수를 실행
+            window.setTimeout(function(){
+                document.write('<h1>안녕하세요</h1>')
+                window.close();
+            },3000);
+            
+            var intervalID = setInterval(function(){
+                document.body.innerHTML += '<p>' + new Date() + '</p>';
+            },1000);
+            
+            setTimeout(function(){
+                clearInterval(intervalID);
+            },10000);
+        }    
+    </script>
+
+
+
+</head>
+<body>
+
+</body>
+</html>

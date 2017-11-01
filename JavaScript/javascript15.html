@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+</head>
+<body>
+    <script>
+        function outer(){
+            var count = 0;
+            return {
+                    increase: function(){
+                        return ++count;
+                    },
+                    decrease: function(){
+                        return --count;
+                    }
+            };
+        }
+        
+        var counter = outer();
+        document.write(counter.increase(),'<br/>'); // 1
+        document.write(counter.increase(),'<br/>'); // 2
+        document.write(counter.decrease(),'<br/>'); // 1
+        var counter2 = outer();                     //    counter2의 스코프가 새로 생기며 count는 처음부터 시작
+        document.write(counter.increase(),'<br/>'); // 2  counter의 스코프는 유지됨.        
+        document.write(counter2.increase(),'<br/>');// 1
+    </script>
+
+
+</body>
+</html>

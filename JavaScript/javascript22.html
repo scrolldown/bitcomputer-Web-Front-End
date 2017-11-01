@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+</head>
+<body>
+    <script>
+        var child = window.open('','','width=300, height=200');
+        //window 창을 절대 위치로 옮기기
+        
+        child.moveBy(100,100);
+        setInterval(function(){
+            // window 창을 상대 위치로 옮기기
+            child.moveBy(10,10);
+        },1000);
+    </script>
+</body>
+</html>

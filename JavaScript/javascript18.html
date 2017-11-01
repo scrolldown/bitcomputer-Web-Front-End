@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>비동기 콜백</title>
+</head>
+<body>
+    <script>
+        function add(a,b,callback){ // 함수 정의
+            console.log('wait 3 seconds'); // wait 3seconds 찍음
+            
+            setTimeout(function() { var result = a + b;
+                                    callback(result);} // 콜백 함수 정의
+                       ,3000); // ms 단위. 1000 = 1초
+        }
+        // 즉, add를 실행하면 wait 3 seconds 가 출력되고 3000ms 뒤에 function() 이 실행됨.
+        add(10,10, function(result){console.log('add result callback : %d', result)}
+           );        
+        console.log('hello javascript');
+        // javascript는 비동기 이므로 hello javascript가 먼저 출력됨
+        // 예상 콘솔 출력 
+        // wait 3 seconds
+        // hello javascript
+        // -----3초뒤------
+        // add result callback : 20
+        
+        function foo(a,b){
+            setTimeout(function(){
+                var result = a+b;
+                console.log('foo(a,b) : ',result);
+            }, 2000);
+        }
+        
+        foo(10,20); // 3초 뒤에 덧셈 실행
+        
+        // foo() 메소드가 끝나야만 bye를 출력
+        console.log('bye');
+    </script>
+</body>
+</html>

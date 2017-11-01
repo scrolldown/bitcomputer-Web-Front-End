@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    
+    <style>
+        div{
+            height: 500px;
+        }
+        #div1{
+            background-color: red;
+        }
+        #div2{
+            background-color: yellow;
+        }
+        #div3{
+            background-color: dimgray;
+        }
+        #div4{
+            background-color: coral;
+        }
+    </style>
+    <script>
+        var intervalId = setInterval(function(){
+            window.scrollBy(10,100);
+        },1000);
+        
+        setTimeout(function(){
+            clearInterval(intervalId);
+        },15000)
+    </script>
+</head>
+<body>
+
+<div id='div1'>div1</div>
+<div id='div2'>div2</div>
+<div id='div3'>div3</div>
+<div id='div4'>div4</div>
+
+</body>
+</html>
