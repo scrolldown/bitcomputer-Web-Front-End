@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>이벤트 전파 버블링 캡처링</title>
+    <style>
+        div{
+            display: inline-block;
+            color:white;
+            font-size:30px;
+            float: left;
+        }
+        #div1{
+            background-color: red;
+            width:300px;
+            height: 300px;
+        }
+        
+        #div2{
+            background-color: green;
+            width:200px;
+            height: 200px;
+        }
+        
+        #div3{
+            background-color: blue;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+    
+    <script>
+        window.onload=function(){
+            var div1=document.getElementById('div1');
+            var div2=document.getElementById('div2');
+            var div3=document.getElementById('div3');
+            
+            /*----버블링-------------------------------
+                #div1 -> onclick
+                  ↑
+                #div2 -> onclick
+                  ↑
+           *클릭 #div3 -> onclick
+                
+           #div3 클릭시 최하단 이벤트부터 최상단이벤트까지 발생 --> 버블링.
+            */
+            
+//            div1.addEventListener('click',function(e){
+//                console.log('div1 클릭됨');
+//            }, false);
+//            
+//            div2.addEventListener('click',function(e){
+//                console.log('div2 클릭됨');
+//            }, false);
+//            
+//            div3.addEventListener('click',function(e){
+//                console.log('div3 클릭됨');
+//            }, false);
+//            
+            // div3 클릭시 콘솔에 div3,div2,div1 세개가 출력됨.--> 버블링 현상
+            //----------------------------------------
+            
+            // 전파 중지 하고 싶으면
+            // e.stopPropagation(); 이벤트 전파를 중지해주는 메소드 사용
+            
+            /*----캡처링 (= 터널링)--------------------
+                #div1 -> onclick
+                  ↓
+                #div2 -> onclick
+                  ↓
+           *클릭 #div3 -> onclick
+                
+                #div3 클릭시 최상단 이벤트부터 최하단 이벤트까지 발생 --> 캡처링
+            */
+            div1.addEventListener('click',function(e){
+                console.log('div1 클릭됨');
+            }, true);
+            
+            div2.addEventListener('click',function(e){
+                console.log('div2 클릭됨');
+            }, true);
+            
+//            div3.addEventListener('click',function(e){
+//                console.log('div3 클릭됨');
+//            }, true);
+            //---------------------------------------
+        }
+    </script>
+</head>
+<body>
+    <div id='div1'>
+        div1
+        <div id='div2'>
+           div2
+           <div id='div3' >
+               div3
+           </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

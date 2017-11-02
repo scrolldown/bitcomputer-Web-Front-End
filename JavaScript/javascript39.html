@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Gallery 만들기</title>
+    <script>
+        window.onload=function(){
+            var imgCnt=10;
+        
+            var img = function(callback){
+                imgArr = new Array(imgCnt);
+                for (var i =1; i<=imgCnt; i++){
+                    imgArr.push('image'+i+'.jpg');
+                }
+                return imgArr;
+            }
+            img();
+            
+            var myImage = document.getElementById('myImage');
+            var i=0;
+            myImage.addEventListener('click',function(e){
+                i++;
+                if(i==10||i==0) i=1;
+                displayImage(i);
+            })
+            
+            var nextBtn = document.getElementById('nextBtn');
+            
+            window.onkeydown=function(e){
+                if(e.keyCode==37){
+                    i=displayImage(i--);
+                } else if(e.keyCode==39){
+                    i=displayImage(i++);
+                    
+                }
+            }
+            
+            var displayImage = function(i){
+                if(i<1){
+                    i=10;
+                }
+                else if(i>10){
+                    i=1;
+                }
+                myImage.setAttribute('src','image'+i+'.jpg');
+                myImage.setAttribute('alt','image'+i+'.jpg');                
+                return i;
+            }            
+        }
+    </script>
+    
+    <style>
+        .container[id='gallery']{
+            float:right;
+            width: 400px;
+            height: 500px;
+            position: relative;
+        }
+        
+        img {
+            width:400px;
+            height:300px;
+        }
+        #gallery header{
+            text-align: center;
+            width:400px;
+            margin-top:20px;
+            margin-bottom:20px;
+        }
+        #gallery footer {
+            margin-top:5px;
+        }
+        
+        input[type='button']{
+            background-color: azure;
+        }
+        #nextBtn{
+            float:right;
+        }
+        
+        
+    </style>
+    
+</head>
+<body>
+   <div class='container' id='gallery'>
+       <header>
+           갤러리
+       </header>
+
+       <contents>
+           <img id='myImage'>   
+       </contents>
+
+       <footer>
+           <input type=button id='prevBtn' value='이전'>
+           <input type=button id='nextBtn' value='다음'>
+       </footer>
+   </div>
+
+</body>
+</html>

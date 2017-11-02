@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    <script>
+        window.onload = function(){
+            // 키 관련 이벤트 --> ASCII 코드로 반환.
+            document.onkeydown = function(e){
+//                document.body.innerHTML = e.keyCode;
+                var myImage = document.getElementById('myImage');
+                // a키 : 65, d키 : 68
+                if(e.keyCode == 65){
+                    myImage.setAttribute('src','./image1.jpg');
+                } else if(e.keyCode == 68){
+                    myImage.setAttribute('src','./image2.png');
+                }                
+            }
+        }
+    </script>
+</head>
+<body>
+    <img id='myImage'/>
+
+
+</body>
+</html>

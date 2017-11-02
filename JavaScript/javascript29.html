@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>실습01</title>
+</head>
+<body>
+    <div id='div1'>
+        div1
+    </div>
+    
+    <script>
+        var getSite = window.prompt('사이트 입력');
+        
+        var createURL = document.createElement('a');
+        var textNode = document.createTextNode(getSite);
+        
+        if(getSite==='네이버'){
+            createURL.setAttribute('href','https://www.naver.com');
+            createURL.appendChild(textNode);
+            
+        } else if(getSite==='다음'){
+            createURL.setAttribute('href','https://www.daum.net');
+            createURL.appendChild(textNode);
+            
+        } else if(getSite==='구글'){
+            createURL.setAttribute('href','https://google.com');
+            createURL.appendChild(textNode);
+            
+        } else{
+            alert('네이버, 다음, 구글 중 입력하세요');
+        }
+        
+        div1.appendChild(createURL);
+    </script>
+
+</body>
+</html>

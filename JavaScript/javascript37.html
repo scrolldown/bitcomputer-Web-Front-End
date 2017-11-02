@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>mouse over</title>
+    <script>
+        window.onload = function(){
+            var myImage = document.getElementById('myImage');
+            myImage.addEventListener('mouseover',function(e){
+                myImage.setAttribute('src','./image2.png');
+            }, false);
+            
+            myImage.addEventListener('mouseout',function(e){
+                this.setAttribute('src','./image1.jpg');
+            }, false);
+        }
+    </script>
+</head>
+
+<body>
+    <img src="./image1.jpg" id="myImage"/>
+</body>
+</html>

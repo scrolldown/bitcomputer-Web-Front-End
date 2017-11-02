@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    <script>
+        window.onload = function(){
+            var header1 = document.getElementById('header1');
+            
+        /*
+                                        my-div
+                                          │ ↓ Child Node
+                                     ┌────┴────┐
+                        Parent Node ↑│         │ ↑ Parent Node
+                                     │         │
+                                  header1    header2
+        */
+            
+            // body에 있는 header1 삭제
+            // document.body.removeChild(header1);
+            
+            // my-div에 있는 header1를 삭제
+            // var myDiv = document.getElementById('my-div');
+            // myDiv.removeChild(header1);
+            
+            // header1만 사용해서 삭제
+            //      --> headr1의 부모를 찾고, 부모에서 removeChild를 함.
+            header1.parentNode.removeChild(header1);
+            var myDiv = document.getElementById('my-div');
+            myDiv.childNodes[2].innerHTML = '바뀐 제목입니다.';
+            // ** childNodes[1]이 아니고 [2] 인 이유 
+            // childNodes 배열을 활용하면 부모노드의 속성 노드와 텍스트 노드를 전부 배열에 추가 시킨다.
+            // myDiv.childNodes[0] ==> 속성 노드 선택
+            // myDiv.childNodes[1] ==> 텍스트 노드(엔터도 텍스트로 취급)선택
+            // myDiv.childNodes[2] ==> 그 다음 자식인 header 엘리먼트 선택
+            
+            
+        }
+        
+    </script>
+</head>
+<body>
+    <div id='my-div'>
+        <h1 id='header1'>제목1</h1>
+        <h1 id='header2'>제목2</h1>
+    </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>이미지 노드 붙이기</title>
+</head>
+<body>
+    <div id='div1'>
+        
+    </div>
+
+    <script>
+        var isConfirm = window.confirm('동적 추가');
+        
+        if(isConfirm){
+            var img = document.createElement('img');
+            img.setAttribute('src','image.png');
+            // <img src="image.png">를 만듦.
+            
+            // 속성을 가져올 때 사용하는 메소드 getAttribute
+            var imgAttr = img.getAttribute('src');
+            alert(imgAttr);
+            
+            div1.appendChild(img); // div1의 자식노드로 img를 append 하기.
+                        
+            
+        }else{
+            var textNode = document.createTextNode('취소 눌렀네');
+            div1.appendChild(textNode);
+        }
+    </script>
+</body>
+</html>

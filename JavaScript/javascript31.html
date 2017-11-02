@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+</head>
+<body>
+    <p></p>
+    <p></p>
+
+    <script>
+        // getElement's'를 이용하여 배열 형태로 모든 태그 가져오기
+        // getElementsByTagName('태그명')
+        // 파라미터에 전달된 문서상에 존재하는 태그들을 배열로 리턴한다.
+        // 위쪽에 있을수록 먼저 추가
+        
+        var paragraphs = document.getElementsByTagName('p');
+        
+        for (var i = 0; i <paragraphs.length ; i++){
+            paragraphs[i].innerHTML += 'for문 ' +i;
+        }
+    </script>
+
+</body>
+</html>

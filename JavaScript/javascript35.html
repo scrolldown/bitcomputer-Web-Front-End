@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Event</title>
+    <script>
+        // Event : ~ 할 때,
+        //          JS에서는 접두사로 on을 붙여서 사용 ex)onclick, onload
+        //          
+        window.onload=function(){
+            var header = document.getElementById('header');
+            
+            //header가 클릭이 되었을 때
+            header.onclick = function(){
+                // 실행 할 함수
+                header.style.color = 'red';
+                
+                //this -> 이벤트가 발생된 객체
+                // 굳이 header라고 지정해주지 않아도 됨.
+                this.style.backgroundColor='yellow';
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1 id = 'header'>클릭하세요</h1>
+</body>
+</html>

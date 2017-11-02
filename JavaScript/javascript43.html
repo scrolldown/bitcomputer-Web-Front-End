@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+
+</head>
+<body>
+    <a href="https://www.naver.com" id='my-link' target="_blank">이동</a>
+    <!-- 예라고 눌렀을 때 이동, 아니라고 했을때 이동 안하기 -->
+    <script>
+        var myLink= document.getElementById('my-link');
+        
+        if(myLink.attachEvent){
+        // 익스플로러 구 버전에서는 addEventListener를 사용 할 수 없음.
+        // 대신 attachEvent를 지원함..            
+        }
+        else{
+            myLink.addEventListener('click',function(e){
+                var isOK = confirm('네이버로 이동 합니까?');
+                if(isOK){
+                    alert('이동합니다.');
+                } else{
+                    alert('이동 안합니다.');
+                    // 이벤트 취소하기
+                    e.preventDefault();
+                    // 원래 하려던 이벤트(a)를 '아예' 취소한다.
+                    // stopPropagation 이랑은 다름.
+                }
+            },false); // false-> 버블링 기본.    
+        }
+        
+    </script>
+</body>
+</html>
