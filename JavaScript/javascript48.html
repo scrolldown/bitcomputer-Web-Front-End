@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>비동기 콜백</title>
+</head>
+<body>
+    <script>
+        function loopAsc(callback){
+            setTimeout(function(){
+                for(var i=0; i< 3; i++){
+                    document.write('ASC : ' + i, '<br/>');
+                }
+                callback();    
+            },0);            
+        }
+        
+        function loopDesc(callback){
+            setTimeout(function(){
+                for(var i=2; i>=0; i--){
+                    document.write('DESC : ' + i,'<br/>')
+                }
+                callback();    
+            },1000);            
+        }
+        
+        loopAsc(function(){ //  loopDesc의 timeout이 1초일때,
+                            //  loopAsc(function(){
+                            //     loopDesc(function(){
+                            //         document.write('내림차순 끝났다.','<br/>');
+                            //     });
+                            //     document.write('오름차순 끝났다.','<br/>');
+                            //  });을 사용하면
+                            //  loopAsc가 우선 실행되고 -> function(){ }이 실행됨.
+                                
+                            //   이때,
+                            //  자바같은 동기방식 언어라면
+                            //  ( asc:0,1,2 ) --1초--> ( desc:2,1,0,내림차순끝났다.) -> (오름차순끝났다.)
+                            //  순으로 나와야 한다.
+                
+                            // 근데 (asc:0,1,2,오름차순끝났다.) --1초--> (desc:2,1,0,내림차순끝났다.)로 출력됨
+                            // 이유 : javascript는 비동기 형태이므로 내림차순이 끝나기까지 기다리는것이 아니라
+                            //       바로 오름차순끝났다를 출력해버림.
+            
+            loopDesc(function(){
+                document.write('내림차순 끝났다.','<br/>');
+            });
+            document.write('오름차순 끝났다.','<br/>');
+        });
+        
+    </script>
+
+
+</body>
+</html>

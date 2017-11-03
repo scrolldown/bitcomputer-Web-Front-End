@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+
+</head>
+
+<body>
+    <div id='wrapper'>
+        <button data-cb='1'>Add div</button>
+        <button data-cb='2'>Add img</button>
+        <button data-cb='delete'>Clear</button> Adding below..<br/>
+        <div id='appendDiv'></div>
+    </div>
+
+    <script>
+        (function() {
+                var appendDiv = document.getElementById('appendDiv');
+                document.getElementById('wrapper').addEventListener('click', append);
+
+                function append(e) { // e: 이벤트가 발생된 노드를 갖고오는 코드.
+                                     //    리스너를 div에 걸었음.
+                    var target = e.target || e.srcElement || event.srcElement;
+                    var callbackFunction = callback[target.getAttribute('data-cb')];
+                    // callbackFunction 은 callback[1||2||delete]의 return 값을 가짐.
+                    //                                --> callbackFunciton은 클로저를 이용한 함수이다.
+                    appendDiv.appendChild(callbackFunction());
+                };
+
+
+                var callback = {
+                    '1': (function() {
+                        var div = document.createElement('div');
+                        div.innerHTML = 'adding new div';
+                        return function() {
+                            return div.cloneNode(true);
+                        }
+                    }()), //iife
+                    '2': (function() {
+                        var img = document.createElement('img');
+                        img.src = 'image.png';
+
+                        return function() {
+                            return img.cloneNode(true);
+                        }
+
+                    }()),
+                    'delete': function() {
+                        appendDiv.innerHTML = '';
+                        return document.createTextNode('Cleared');
+                    }// 얘는 iife가 아님.
+                }
+            }());
+    </script>
+
+
+</body>
+</html>

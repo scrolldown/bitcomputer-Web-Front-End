@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+</head>
+<body>
+    <button id='btnToggle'>Toggle Pending</button>
+    <div id='divPending'> Pending </div>
+
+    <script>
+        // IIFE 바로 실행시키는 이유 : 글로벌 변수가 없음으로써 스크립트를 사용하지 않을 때는,
+        //                          IIFE의 SCOPE가 생겼다.
+        //                          따라서 다른 함수 or 모듈에서 변경할 수가 없음. -> 변수 보호 가능
+        (function(){
+            var pendingInterval = false;
+            var div=document.getElementById('divPending'); // 클로저를 일으키는 변수
+            
+            btn = document.getElementById('btnToggle');
+            
+            function startPending() { // 상위스코프의 div를 하위스코프에서 사용 --> 클로저.
+                                      // return에 상위스코프의 변수를 넣지않아도, 클로저를 사용할 수 있음.
+                if (div.innerHTML.length > 13) {
+                    div.innerHTML = 'Pending';
+                }
+                div.innerHTML += ' .';
+            };
+            
+            btn.addEventListener('click', function() { // function()부분 : 콜백
+                if (!pendingInterval) {         // startPending : 상위스코프의 startPending을 하위스코프인 
+                                                //                addEventListener의 콜백함수에서 사용 --> 클로저
+                                                //                setInterval에 익명함수를 선언하는게 아닌
+                                                //                startPending을 사용함으로써 매번 함수가 실행되는게
+                                                //                아니게 해놓아서 메모리를 아끼게 함.
+                    pendingInterval = setInterval(startPending, 500);
+                } else {
+                    clearInterval(pendingInterval);
+                    pendingInterval = false;
+                }
+            });
+        }());
+    </script>
+
+
+</body>
+</html>

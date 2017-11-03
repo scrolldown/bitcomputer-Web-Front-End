@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>동기 콜백</title>
+
+</head>
+<body>
+    <script>
+        
+        function loopAsc(callback){
+            
+            // callback(); callback()의 위치를 정함으로써 callback이 사용 될 시점을 정해줌.
+            //             --> 이경우 callback이 for문 돌기 전 수행된다. 
+            // 변수에 함수를 할당한 타입
+            // loopAsc(var callback=function(){ }) 와 같다.
+            
+            for(var i=0; i<3; i++){
+                document.write('오름차순 : ' + i, '<br/>');
+            }
+            // callback : 주로 어떠한 작업이 끝난 후 호출되는 함수.
+            
+            // ex)
+            // for문이 끝나고 나서 callback() 호출
+            callback(); // callback()의 위치를 정함으로써 callback이 사용 될 시점을 정해줌.
+        }
+        
+        function add(){
+            document.write(10+20,'<br/>');
+        }
+        
+        //       ┌─ 이 부분은 callback = function(){ alert('끝났습니다.')}; 와 같음.
+        loopAsc(function()/* callback 자리에 익명함수가 들어감 */{
+            alert('끝났습니다.');
+        });
+        
+        loopAsc(function(){ /* 어떨때는 또 done.으로 띄우겠다.*/
+            document.write('done.','<br/>');    
+        })
+        
+        // callback = add; 와 같음. callback 수행은 곧 add 수행을 얘기함.
+        loopAsc(add);
+        
+        // 만약 loopAsc(add()); 일경우
+        /* 30
+        오름차순 : 0
+        오름차순 : 1
+        오름차순 : 2
+        처럼 출력됨. 이유 : callback은 변수인데 callback = add() 을 한것과 같다. 따라서 add()가 우선 실행되므로.
+        */
+    </script>
+</body>
+</html>
