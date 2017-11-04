@@ -7,7 +7,7 @@ public class Exam06 {
 		//  Person2 클래스의 name과 age는 Person2 클래스 내부에서만 접근 할 수 있다.
 		
 		p1.setName("AAA");
-		p1.setAge(-1);
+		p1.setAge(1);
 		
 		int p1_age = p1.getAge();
 		String p1_name = p1.getName();

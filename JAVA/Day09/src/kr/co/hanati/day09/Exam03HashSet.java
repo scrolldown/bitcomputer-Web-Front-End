@@ -14,8 +14,6 @@ public class Exam03HashSet {
 		mHashSet.add(new Person("CCCD",20));
 		mHashSet.add(new Person("ø¿¡æ»∆ø¿¡æ»∆",30));
 		
-		
-		
 		for(Person p : mHashSet){
 			System.out.println(p);			
 		}

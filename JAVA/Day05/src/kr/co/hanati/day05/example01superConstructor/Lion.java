@@ -10,7 +10,6 @@ public class Lion extends Animal{
 	// 즉, 부모 클래스의 생성자를 호출하기 위한 매개변수를 자식 클래스에서 받아서 super 생성자를 이용해
 	// 부모 클래스의 생정자(super 생성자)를 명시적으로 호출한다.
 	
-	
 	private int weight;
 	
 	public Lion(String name, int age, int weight){
