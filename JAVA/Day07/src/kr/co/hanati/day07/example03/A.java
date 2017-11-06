@@ -10,7 +10,6 @@ public class A {
 	//			다) 전역 변수 (static)
 	//		** 변수를 final로 상수를 바꿀 땐, 변수명을 대문자와 _(언더바)만 사용한다.
 	
-	
 	final int B=10; // A클래스가 생성 될 때마다 메모리를 점유하는데 값은 변경도 불가능하고, 같은 값을 가리킴. --> static으로 메모리 아낌
 	static final int NUM_OF_PEOPLE = 100; // static으로 메모리 아낌
 	final int NUM2;
@@ -19,8 +18,6 @@ public class A {
 	public A(int num2){
 		this.NUM2=num2;
 	}
-	
-	
 	// 자식 클래스가 오버라이딩이 가능한 foo() 메소드
 	void foo(){
 		

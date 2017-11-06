@@ -11,7 +11,7 @@ public class Person {
 	// 검색어가 될 만한 데이터를 hash 알고리즘의 재료로 사용한다.
 	// hash 알고리즘 : 일정 기준에 따라서 데이터가 위치할 그룹을 지어 주는 것
 	// % 소수 만 입력하여 그룹을 지어주면 된다.
-	
+
 	@Override
 	public int hashCode() {
 		return this.name.hashCode() % 3;
