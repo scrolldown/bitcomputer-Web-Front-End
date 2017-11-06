@@ -31,7 +31,9 @@
         
         var koo = function(a,b){
             var result = a+b;
-            return function(){return this.result;};
+            return function(){
+                return this.result;
+            };
         }
         
         koo_result = koo(10,20);

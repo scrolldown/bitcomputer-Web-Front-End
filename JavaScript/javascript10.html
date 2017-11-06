@@ -22,15 +22,22 @@
         // document.write('add 2,3 : ' + add(2,3)); // global 에서는 sum의 scope 안으로 접근할 수 없다. --> 오류
         
         /* scope
-        ┌ global ───┐
-        │┌── sum ──┐│
-        ││   num   ││
-        │└────┬────┘│
-        └─────┼─────┘
-         ┌ add┴────┐
-         │  n1,n2  │ ==> global 에서는 add 접근 불가.
-         └─────────┘
-         
+         ┌ global ──┐ 
+         │sum()     │ 
+         └────↑─────┘               
+          sum_result
+              │
+         ┌ sum ─────┐
+         │sum_result│
+         │  i       │
+         │ num      │
+         │ add()    │
+         └────↑─────┘
+            n1+n2
+              │
+         ┌ add┴─────┐
+         │  n1,n2   │ ==> global 에서는 add 접근 불가.
+         └──────────┘         
         */
     </script>
 

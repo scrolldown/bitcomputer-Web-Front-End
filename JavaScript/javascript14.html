@@ -9,7 +9,7 @@
         var count=0;
         
         function increase(){
-            return ++count;
+            return ++count; // 상위 스코프(global)의 count를 사용하면서 클로저 발생.
         }
         
         document.write(increase(),'<br/>');

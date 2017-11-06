@@ -11,16 +11,23 @@
             var inner = function(){
                 return ++count;
             }
-            return inner;
+            return inner; // = function(){return ++count;}이라는 함수 자체를 return함.
         }
+        // 즉, outer() 선언시 return 값은 function 이 된다.
+        var increase1 = outer(); // 따라서 increase1은 function(){return ++count;} 와 같음.
+        var increase2 = outer(); // 마찬가지로 increase2는 function(){return ++count;} 와 같음.
         
-        var increase1 = outer();
-        var increase2 = outer();
+        document.write(increase1(),'<br/>'); // --> ++count를 하는 function을 실행(increase1()).
+                                             //     하여서 전역변수 count는 1이 된다.
+        document.write(increase2(),'<br/>'); // --> ++count를 하는 function을 실행(increase2()).
+                                             //     하여서 전역변수 count는 2이 된다.
+        document.write(increase1()); // --> ++count를 하는 function을 실행(increase1()).
+                                     //     하여서 전역변수 count는 3이 된다.
         
-        document.write(increase1(),'<br/>'); // 1
-        document.write(increase2(),'<br/>'); // 2
-        document.write(increase1());
-        
+        /* 
+            클로저 사용하는 이유
+              
+        */
     </script>
 
 

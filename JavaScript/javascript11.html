@@ -12,9 +12,14 @@
         var i, len =3;
         for(i=0;i<len;i++){
             document.getElementById('div'+i)
-                    .addEventListener('click',function(){alert('You Clicked div #'+i);},
-                                                              false);
+                    .addEventListener('click',function(){
+                                                    alert('You Clicked div #'+i);
+                                              },false);
         }
+        
+        // getElementById로 div+i를 알고,
+        // addEventListener로 click 이벤트를 Listen하고, 콜백함수로 function(){alert~}을 실행한다.
+        // addEventListener() 실행컨텍스트가 콜스택에 3개 쌓임. -> 이동안 i는 3이 되었음.
     </script>
 
 </body>
