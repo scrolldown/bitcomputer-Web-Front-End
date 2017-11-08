@@ -19,6 +19,24 @@
             document.getElementById('div'+ index)
                     .addEventListener('click',function(){alert('You Clicked div #'+index)},false);
         }
+        /* ┌─── Call Stack ────┐
+           │                   │
+           │                   │
+           │                   │
+           │                   │
+           │                   │
+           │ ┌───────────────┐ │
+           │ │ setDivClick(2)│ │
+           │ └───────────────┘ │
+           │ ┌───────────────┐ │
+           │ │ setDivClick(1)│ │
+           │ └───────────────┘ │
+           │ ┌───────────────┐ │
+           │ │ setDivClick(0)│ │
+           │ └───────────────┘ │
+           └───────────────────┘
+        */
     </script>
+    
 </body>
 </html>

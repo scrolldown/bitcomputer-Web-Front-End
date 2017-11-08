@@ -20,6 +20,31 @@
         // getElementById로 div+i를 알고,
         // addEventListener로 click 이벤트를 Listen하고, 콜백함수로 function(){alert~}을 실행한다.
         // addEventListener() 실행컨텍스트가 콜스택에 3개 쌓임. -> 이동안 i는 3이 되었음.
+        
+        /*
+            for문 다돌고 난 뒤 모습 
+            
+            ┌ global ──┐ 
+            │  i=3     │ 
+            │ len=3    │ 
+            └──────────┘    
+           ┌───── Call Stack ──────┐
+           │                       │
+           │                       │
+           │                       │
+           │                       │
+           │                       │
+           │ ┌───────────────────┐ │
+           │ │addEventListener(i)│ │
+           │ └───────────────────┘ │
+           │ ┌───────────────────┐ │
+           │ │addEventListener(i)│ │
+           │ └───────────────────┘ │  -------> 클릭시 i가 실행되면서, i는 3이므로 alert(3) 나옴.
+           │ ┌───────────────────┐ │
+           │ │addEventListener(i)│ │
+           │ └───────────────────┘ │
+           └───────────────────────┘
+        */
     </script>
 
 </body>

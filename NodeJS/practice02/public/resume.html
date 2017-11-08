@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>자기소개서 업로드 연습</title>
+</head>
+<body>
+    <h1>자기소개서 작성</h1>
+    <br/>
+    <form method='post' enctype='multipart/form-data'
+            action ='/process/resume'>
+        <table>
+            <tr>
+                <td><label>프로필 </label></td>
+                <td><input type='file' name='photo' value='사진선택'></td>
+            </tr>
+            <tr>
+                <td><label>이름 </label></td>
+                <td><input type='form' name='name'></td>
+            </tr>
+            <tr>
+                <td><label>닉네임 </label></td>
+                <td><input type='form' name='nickname'></td>
+            </tr>
+            <tr>
+                <td><label>Tel </label></td>
+                <td><input type='form' name='tel'></td>
+            </tr>
+            <tr>
+                <td><label>자기소개 </label></td>                
+            </tr>
+            <tr>
+                <td colspan=2><textarea name='introduce'></textarea></td>
+            </tr>
+        </table>
+        <input type='submit' value='업로드' name='submit'>
+    </form>
+
+</body>
+</html>

@@ -24,8 +24,7 @@ app.use("/",function(req,res,next){
     // ======== 미들웨어 #1 ==========
     console.log('미들웨어#1');
     
-    res.send({"name":req.Person.name,
-             "age" : req.Person.age});
+    res.send(req.Person);
 });
 
 http.createServer(app).listen(app.get('port'),function(){
