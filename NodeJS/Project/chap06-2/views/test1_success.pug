@@ -1,0 +1,29 @@
+doctype html
+
+html
+    head
+        title "성공"
+
+        style.
+            #my-id{
+                color:red;
+            }
+    body
+        #container
+            p "테스트 성공."
+            p 아이디 : #{userid}, 이름 : #{username}
+            
+            ul
+                - results = [{id:'test01', name:'소민호1'},{id:'test02',name:'소민호2'}];
+                - for (var i=0; i< results.length; i++){
+                -   var curId = results[i].id;
+                -   var curName = results[i].name;
+                    li #{i} 아이디 : #{curId}, 이름 : #{curName}
+                - }
+    script.
+        for(var a=0; a<3; a++){
+            alert(a);
+        }
+            
+            
+                

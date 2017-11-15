@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>문서 객체 이동하기</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js">
+    </script>
+    <script>
+        $(document).ready(function(){
+            setInterval(function(){
+                // $('img') 에 의해 5개의 엘리먼트가 선택된다.
+                // first()에 의해 첫번째 엘리먼트가 선택 되고,
+                // 첫 번째 엘리먼트를 appendTo 를 이용해 body 맨 뒤로 이동시킨다.
+                // 이 과정이 1초에 한번씩 일어나고 있음.
+                $('img').first().appendTo('body');
+            }, 1000);
+        });
+    </script>
+    <style>
+        img {
+            width : 20%
+        }
+    </style>
+</head>
+<body>
+    <img src="1.jpg" alt='1'/>
+    <img src="2.jpg" alt='2'/>
+    <img src="3.jpg" alt='3'/>
+    <img src="4.jpg" alt='4'/>
+    <img src="5.jpg" alt='5'/>
+</body>
+</html>

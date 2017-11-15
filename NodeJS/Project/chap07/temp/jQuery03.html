@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DOM 내부 검사</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js">
+    </script>
+    <script>
+        $(document).ready(function(){
+//            // 1) HTML 엘리먼트 문자열( <div></div> )            
+//            // h2가 갖고있는 하나의 element의 모든 HTML 코드를 가져오는게 html
+//            var h2Html = $('h2').html();
+//            alert(h2Html);
+//            
+//            
+//            // 2) Text <p> Text </p>            
+//            // h1에서 표현하는 text를 가져옴.
+//            var h1Text = $('h1').text();
+//            alert(h1Text);
+            
+            $('#wrapper').html('<h1>제목4</h1>'); // 안의 내용을 하나의 element로 받아들임.
+            $('#wrapper').text('<h1>제목5</h1>'); // 안의 내용을 text 그 자체로 받아들임.
+            
+        });
+    </script>
+</head>
+<body>
+    <h1><a href="https://www.daum.net">제목1</a></h1>
+    <h2><a href="https://www.naver.com">제목2</a></h2>
+    <h3>제목3</h3>
+    
+    <div id="wrapper">
+        
+    </div>
+    
+</body>
+</html>

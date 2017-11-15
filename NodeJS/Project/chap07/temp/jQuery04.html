@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DOM 내부 검사</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js">
+    </script>
+    <script>
+        $(document).ready(function(){
+            // 속성 가져오기 --> getAttribute와 대응
+            var srcValue = $("#myImg").attr('src');
+            console.log('src : ' + srcValue);
+            
+            // 속성 추가하기
+            $('#myImg').attr('src','2.jpg');
+    </script>
+</head>
+<body>
+    <img src="3.jpg" id="my-img"/>
+</body>
+</html>

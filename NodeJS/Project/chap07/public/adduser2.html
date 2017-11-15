@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 화면</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js">
+    </script>
+    <script>
+        $(document).ready(function(){
+            $("#id").blur(function(){
+                // userInput에 들어있는 내용을 토대로
+                // queryString 생성
+                var userInput = $(this);
+                var param = $(userInput).serialize();
+                
+                console.log(param);
+                
+                // ajax 통신 시작
+                $.ajax({
+                    url:'/api/user/dup-check',
+                    data:param,
+                    dataType:'json',
+                    type:'get',
+                    success:function(data){
+                        if(data.msg == 'ok'){
+                            $(userInput).css('border','1px solid green');
+                            $('#isDup').text('사용가능합니다');
+                        }else{
+                            $(userInput).css('border','1px solid red');
+                            $('#isDup').text('중복되었습니다');
+                        }
+                    }
+                });
+                
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>회원가입</h1>
+    <hr/>
+    <form method='post' action='/process/adduser'>
+       <!-- action을 통해 해당 URL로 이동하게 함. -->
+        <table>
+            <tr>
+                <td><label>아이디</label></td>
+                <td><input type='text' name='id' id='id'></td> 
+                <td id='isDup'></td>
+            </tr>            
+            <tr>
+                <td><label>패스워드</label></td>
+                <td><input type='password' name='password'></td>
+            </tr>
+            <tr>
+                <td><label>나이</label></td>
+                <td><input type='text' name='age'></td>
+            </tr>
+            <tr>
+                <td><label>이름</label></td>
+                <td><input type='text' name='name'></td>
+            </tr>
+        </table>
+        <input type='submit' value='회원가입' name=''>
+    </form>
+
+</body>
+</html>
+
+
+
+

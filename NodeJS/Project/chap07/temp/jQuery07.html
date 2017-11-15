@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js">
+    </script>
+    <script>
+        $(document).ready(function(){
+            // 
+            $('#btn1').click(function(e){
+                alert(e.currentTarget);
+            });
+            
+            $('body').click(function(e){
+                $('#my-div2').html('<h1>' + e.pageX + ', ' + e.pageY + '</h1>');
+            });
+            
+//            bind, live, delegate를 통해서 명시적으로 이벤트에 대한 리스너를 부여한다.
+//            $('btn1').bind('click',function(e){
+//                
+//            });
+            $('h1').bind('click',function(){
+                $(this).html(function(index,html){
+                    return html + '*';
+                });
+            });
+            
+            // 이벤트 여러개 바인딩(부여) 하기
+            $('h1').bind({
+                mouseenter : function() { $(this).addClass('reverse'); },
+                mouseleave : function() { $(this).removeClass('reverse'); }
+            });
+            
+            
+        });
+    </script>
+    
+    <style>
+        .reverse {
+            background-color:black;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <button id='btn1'>버튼입니다.</button>
+    <div id='my-div1'>
+        <h1>제목 1</h1>
+        <h1>제목 2</h1>
+        <h1>제목 3</h1>
+    </div>
+    <div id='my-div2'>
+        
+    </div>
+</body>
+</html>

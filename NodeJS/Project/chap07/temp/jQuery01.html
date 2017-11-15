@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery 기본</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js">
+    </script>
+    <script>
+        // jQuery 사용하는 방법 3가지
+        // 1.
+        $(document).ready(function(){
+          //==>'window.onload 이벤트와 같다.'  
+            $('h1').css('color','gray').css('backgroundColor','cyan');
+            $('#my-p').css('color','yellow');
+            $('div h1').css('backgroundColor','cyan');
+            //$('선택자') 는 선택자의 element 객체가 선택됨.
+            // ==> var my_p = document.getElementBySelector('선택자');와 같음.
+            // 따라서 이런 응용도 가능
+            var my_p = $('#my-p');
+            $(my_p).css('backgroundColor','black');
+            
+            $('.my-h4').css('color','#18a5d6');
+            
+        });
+
+//      2.
+//        $(function(){
+//            
+//        });
+//        
+//      3.
+//        window.onload = function() {
+//            
+//        }
+    </script>
+</head>
+<body>
+    <h1>jQuery</h1>
+    <p id="my-p">jQuery는 자바스크립트 라이브러리입니다.</p>
+    <div>
+        <h1> ㅎㅎ </h1>
+    </div>
+    <h4 class="my-h4">클라이언트 사이드 자바스크립트를 편하게 만들어 줍니다.</h4>
+    
+    <h1>자바스크립트를 이용한 웹 통신도 지원합니다.</h1>
+</body>
+</html>

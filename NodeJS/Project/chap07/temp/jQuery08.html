@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>문서 객체 이동하기</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js">
+    </script>
+    <script>
+        $(document).ready(function(){
+            var age =10 ;
+            $('#btn1').click(function(){
+                var my_template = $('#mytemplate').html();
+                var template = my_template.format('A',++age);
+                $('#container').append(template);
+            })
+            
+//            // 현재  존재하는 엘리먼트 중 선택된 엘리먼트에만 이벤트를 부여
+//            $('img').click(function(){
+//                alert($(this).attr('src'));
+//            })
+            
+//            // 단순한 이벤트 바인딩 
+//            $('img').on('click',function(){
+//                alert($(this).attr('src'));
+//            });
+            
+//            // live -> 미래에 생겨날 엘리먼트에도 이벤트를 부여 (전역)
+//            $(document).on('click','img',function(){
+//                alert($(this).attr('src'));
+//            });
+//            
+            // delegate -> 미래에 생겨날 엘리먼트에도 이벤트를 부여(범위 한정)
+            //  #container 안에 있는 img 엘리먼트에만 이벤트를 부여
+
+            $('#container').on('click','img',function(){
+                alert($(this).attr('src'));
+            });
+        });
+    </script>
+    <style>
+        img{
+            width:10%;
+        }
+    </style>
+</head>
+<body>
+    <button id='btn1'>버튼입니다.</button>
+    <div id='container'>
+        <div class='profile'>
+            <img src="1.jpg">
+            <span> 제 이름은 A입니다.</span>
+            <span> 나이는 40살 입니다.</span>
+        </div>
+    </div>
+    <form id='frm1'>
+    
+    </form>
+</body>
+    <script>
+        // 스크립트를 이용한 html 템플릿을 사용 하기 위한 함수
+        String.prototype.format = function(){
+            var args = arguments;
+            return this.replace(/{(\d+)}/g, function(match, number){
+                return typeof args[number] != 'undefined' ? args[number]: match;
+            });
+        }
+    </script>
+    
+    <script type='text/template' id='mytemplate'>
+        <div class='profile'>
+            <img src="1.jpg">
+            <span> 제 이름은 {0}입니다.</span>
+            <span> 나이는 {1}살 입니다.</span>
+        </div>
+    </script>
+</html>

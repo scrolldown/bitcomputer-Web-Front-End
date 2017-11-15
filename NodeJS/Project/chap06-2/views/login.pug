@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    |     
+    title &#xB85C;&#xADF8;&#xC778;&#xD654;&#xBA74;
+  body
+    h1 &#xB85C;&#xADF8;&#xC778;
+    |     
+    hr
+    |     
+    form(method='post', action='/process/login')
+      // action을 통해 해당 URL로 이동하게 함.
+      table
+        tr
+          td
+            label &#xC544;&#xC774;&#xB514;
+          | 
+          td
+            input(type='text', name='id')
+        |             
+        |             
+        tr
+          td
+            label &#xD328;&#xC2A4;&#xC6CC;&#xB4DC;
+          |                 
+          td
+            input(type='password', name='password')
+      |         
+      input(type='submit', value='로그인', name='')

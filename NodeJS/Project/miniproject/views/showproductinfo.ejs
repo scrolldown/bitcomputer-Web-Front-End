@@ -1,0 +1,125 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>상품 상세</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    
+    
+    <style>
+        .comment{
+            width:50%;
+        }
+        
+        body > div{
+            padding-top:30px;
+        }
+        
+    </style>
+    
+    <script>
+        $(document).ready(function(){
+            $('#submitComment').click(function(){
+                var my_template = $('#mytemplate').html();
+                console.log($('#idFrm').val(),$('#submitComment').val());
+                var template = my_template.format($('#idFrm').val(),$('#comment').val());
+                $('#commentContainer').append(template);
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/process/listproduct">Bag Shop</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" method='post' action="/process/searchproduct">
+            <div class="form-group">
+            <input type="text" name="name" class="form-control" value="검색할 단어를 입력" onblur="this.value='검색할 단어를 입력'" onfocus="this.value=''">
+            </div>            
+            <button type="submit" class="btn btn-success">Search</button>
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+    <div class="panel panel-default">
+       <h2 class="panel-heading">상품 리스트</h2>
+       <table class="table">
+           <tr>
+               <th>상품사진</th>
+               <th>상품이름</th>
+               <th>가격</th>
+           </tr>
+
+           <% result.forEach(function(data,index){ %>
+           <%
+           var curPhoto = data._doc.photo;
+           var curName = data._doc.name;
+           var curPrice = data._doc.price;
+           var curCategory = data._doc.category;
+           var curDesc = data._doc.description;
+           %>
+           <tr>
+               <td rowspan=3><img src="/uploads/<%= curPhoto %>" width=400px height=400px></td>
+               <td><%= curName %></td>
+               <td><%= curPrice %></td>
+           </tr>
+           <tr>
+               <th height=50px>카테고리 </th>
+               <th>상품 설명</th>
+           </tr>
+           <tr>
+               <td><%= curCategory %></td>
+               <td><%= curDesc %></td>
+           </tr>
+           <% }) %>
+       </table>
+       <div class="panel panel-default" id='commentContainer'>
+           등록된 댓글
+       </div>
+       <form id='addComment'>
+           아이디
+           <input type='form' id='idFrm'>
+            댓글<textarea id="comment"></textarea>
+            <input type='button' value='전송' id='submitComment'>
+       </form>
+    </div>
+    <a href="/process/listproduct">메인으로</a>
+</body>
+
+    <script>
+        // 스크립트를 이용한 html 템플릿을 사용 하기 위한 함수
+        String.prototype.format = function(){
+            var args = arguments;
+            return this.replace(/{(\d+)}/g, function(match, number){
+                return typeof args[number] != 'undefined' ? args[number]: match;
+            });
+        }
+    </script>        
+    <script type='text/template' id='mytemplate'>
+
+        <div class="panel-heading">
+            <h3 class="panel-title">{0}</h3>
+        </div>
+        <div class="panel-body">
+            {1}
+        </div>
+        
+    </script>
+</html>

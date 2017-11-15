@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>사용자 리스트 보기</title>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+   
+   <div class="panel panel-default">
+       <h2 class="panel-heading">사용자 리스트</h2>
+       <table class="table">
+           <tr>
+               <th>번호</th>
+               <th>아이디</th>
+               <th>이름</th>
+           </tr>
+           
+               <% results.forEach(function(data,index){ %>
+               <%
+               var curId = data._doc.id;
+               var curName = data._doc.name;
+               %>
+               <tr>
+               <td># <%= index %></td>
+               <td><%= curId %></td>
+               <td><%= curName %></td>
+               </tr>
+               <% }) %>
+           
+       </table>       
+   </div>
+</body>
+</html>

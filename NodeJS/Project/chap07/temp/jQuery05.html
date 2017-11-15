@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DOM 객체 삽입</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js">
+    </script>
+    <script>
+        $(document).ready(function(){
+            var h1 = '<h1>제목1</h1>';
+            var h2 = '<h2>제목2</h2>';
+            $('body').append(h1,h2,h1,h2);
+            
+            var content=[
+                { name : 'A', age : 10},
+                { name : 'B', age : 20},
+                { name : 'C', age : 30}
+            ];
+            
+            $('div').append(function(index){ // append에는 함수도 쓸 수 있음.
+                                             // div가 여러개인데 append를 쓸 경우, for문처럼 작동
+                var item = content[index];
+                var output  = '';
+                
+                output += '<h1>' + item.name + '</h1>';
+                output += '<h2>' + item.age + '</h2>';
+                
+                return output;
+            });
+        // $(A).appendTo(B) : A를 B의 뒷 부분에 추가하기
+            //  <B>
+            //      <h1> B <h1>
+            //      <A></A>
+            //  </B>
+            
+        // $(A).preprendTo(B) : A를 B의 앞부분에 추가하기
+            //  <B>
+            //      <A></A>
+            //      <h1> B <h1>            
+            //  </B>
+            
+        // $(A).insertAfter(B) : A를 B의 뒤에 추가하기
+            //  <B>            
+            //      <h1> B <h1>            
+            //  </B>
+            //  <A></A>
+            
+        // $(A).insertBefore(B) : A를 B의 앞에 추가하기
+            //  <A></A>
+            //  <B>            
+            //      <h1> B <h1>            
+            //  </B>
+
+        // $(A).append(B) : B를 A의 뒷부분에 추가
+            // <A>
+            //      <h1></h1>
+            //      <B> </B>
+            // </A>
+            
+        // $(A).prepend(B) : B를 A의 앞부분에 추가
+            // <A>
+            //      <B> </B>
+            //      <h1></h1>
+            // </A>
+            
+        // $(A).after(B) : B를 A의 뒤에 추가
+            // <A>
+            //      <h1></h1>
+            // </A>
+            // <B> </B>
+            
+        // $(A).before(B) : B를 A의 앞에 추가
+            // <B> </B>
+            // <A>
+            //      <h1></h1>
+            // </A>
+
+        })
+    </script>
+</head>
+<body>
+    <div> </div>    
+    <div> </div>    
+    <div> </div>    
+</body>
+</html>
