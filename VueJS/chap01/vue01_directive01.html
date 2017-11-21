@@ -1,0 +1,42 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>vue01</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ message }}</h1>
+        <input v-model = "message">
+        <pre>{{$data}}</pre>
+    </div>
+</body>
+<script src="https://unpkg.com/vue"></script>
+<script>
+    
+    /*
+    VueJS는 MVVM 모델 사용. ( Model - View Model - View )
+    
+        ┌───── View ────────────────┐
+        │<div id=app>               │
+        │ {{ message }} ─────바인딩─┐│
+        │ <input v-model="message">┘│ // 양방향 바인딩 : v-model 사용.
+        │</div>                     │
+  데이터 └───────────────────────────┘
+  바인딩  │               ▲ 알림전송                
+  커맨드  ▼               │ 
+        ┌── View Model ───┐ Update┌── Model ────────┐
+        │  new Vue{       │ ────▶ │   *data:{       │ 
+        │     el:#app,    │       │     message:    │
+        │   *data: ●──────┼───────┤     'Hello! Vue'│ 
+        │   }             │ ◀──── │   }             │ 
+        └─────────────────┘ Alarm └─────────────────┘
+        
+        
+    */
+    new Vue({ // view의 생성자 객체
+        el:'#app',
+        data:{message:'Hello! Vue'}
+    });
+    
+</script>
+</html>

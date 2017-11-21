@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class='container'>
+       
+        <button v-on:click='upvotes++' class='btn btn-default'>
+            투표수 : {{ upvotes }}
+        </button><br/><br/>
+        v-on의 축약형 : @ <br/>
+        <button @click='upvotes++' class='btn btn-default'>
+            투표수 : {{ upvotes }}
+        </button>
+        <br/><br/>
+        methods에 미리 정의하고 사용<br/>
+        <button @click='doUpvotes' class='btn btn-default'>
+            투표수 : {{ upvotes }}
+        </button><br/><br/>
+        셋 다 작동함.
+    </div>
+</body>
+<script src='https://unpkg.com/vue'></script>
+<script>
+    var vm = new Vue({
+        el:'.container',
+        data:{
+            upvotes:0
+        },
+        methods:{ // 메소드엔 메소드가 들어감.
+            doUpvotes : function(){
+                this.upvotes++;
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,22 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>vue02</title>
+</head>
+<body>
+    <div id = "app">
+        <input v-model ="message">
+        <button v-show ="message"> message가 입력이 되면 버튼이 보입니다.</button>
+    </div>
+</body>
+
+
+<script src="https://unpkg.com/vue"></script>
+
+<script>
+    var vm = new Vue({
+                el : '#app',
+                data:{message:'Hi'}
+                })
+</script>
+</html>

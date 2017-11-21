@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>v-for로 객체의 프로퍼티 순회하기.</title>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class='container'>
+        
+        <!-- $는 property 직접지정.-->
+        <ul class='list-group'>
+           <li v-for='(value, key, index) in story' class='list-group-item'>
+               {{ index }}. {{ key }} : {{ value }}
+           </li>
+        </ul>
+        
+        <pre>{{ $data }}</pre>
+    </div>
+</body>
+
+<script src="https://unpkg.com/vue"></script>
+<script>
+    var vm = new Vue({
+        el:'.container',
+        data:{
+            story : {
+                writer : 'ojh', // 작성자
+                plot : 'ㅋㄹㅋㄹ', // 이야기
+                upvotes : 10 // 투표수
+            }
+        }
+    })
+</script>
+</html>

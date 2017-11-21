@@ -1,0 +1,31 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>vue03</title>
+</head>
+<body>
+    <div id='app'>
+<!-- Vue의 el을 #app로 해놨으므로, 이 div안에서만 Vue 문법이 가능.-->
+<!-- 틀구성 순서 : div만들기 -> script CDN 가져오기 -> data 구성 -->
+
+        <input type='text' v-model="gender">
+        <input type='text' v-model="name">
+        <div v-if="gender === 'male' || gender === 'female'">
+            <h1> Hello {{gender ==='female'? 'Miss' : 'Mr'}}.</h1>
+            <p>{{name}}</p>
+        </div>
+        <h1 v-else> 입력하세요 </h1>
+    </div>
+</body>
+
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data:{
+            name:'',
+            gender:''
+        }
+    })
+</script>
+</html>

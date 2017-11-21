@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>v-for로 배열 순회하기.</title>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class='container'>
+        
+        <!-- $는 property 직접지정.-->
+        <ul class='list-group'>
+            <li class='list-group-item' v-for='story in stories'>
+                <pre>{{story}}</pre>
+            </li>
+        </ul>
+    </div>
+</body>
+
+<script src="https://unpkg.com/vue"></script>
+<script>
+    var vm = new Vue({
+        el:'.container',
+        data:{ // 무조건 key 값이 있어야 하므로 바로 배열을 넣지 않는다.
+            stories:['쓰고싶은말 한개',
+                    '쓰고싶은말 두개',
+                    '쓰고싶은말 세개']
+        }
+    })
+</script>
+</html>
