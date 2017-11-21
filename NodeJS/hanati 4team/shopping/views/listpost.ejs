@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>글 리스트</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            color: #000;
+            background-color: #fff;
+        }
+
+
+        .container {
+            margin-right: auto;
+            margin-left: auto;
+            padding-left: 20px;
+            padding-right: 20px;
+
+        }
+
+        span {
+            color: #333;
+        }
+
+        #board_title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: teal;
+        }
+
+        #tlist :hover {
+
+            background-color: skyblue;
+            cursor: pointer;
+        }
+
+        #div_btn {
+            margin: 0 auto;
+        }
+
+        .out {
+            width: 100%;
+            text-align: center;
+        }
+
+        .in {
+            display: inline-block;
+        }
+
+    </style>
+
+
+    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+
+
+    <script>
+        function listpost(page, perPage) {
+            document.location = '/process/listpost?page=' + page + '&perPage=' + perPage;
+        }
+    </script>
+
+</head>
+
+
+
+<body>
+    <div class="jumbotron text-center">
+        <h3 class="glyphicon glyphicon-pencil">리뷰게시판</h3>
+    </div>
+
+    <div class="container">
+         <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" method='post' action="/process/searchpost">
+            <input type="text" name="title" class="form-control" placeholder="검색할 제목입력">   
+            <button type="submit" class="btn btn-success">Search</button>
+            
+          </form>
+        </div><!--/.navbar-collapse -->
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    글목록
+                </tr>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                    <th>idx</th>
+                </tr>
+            </thead>
+
+            <%  var noStart = (pageCount - page) * perPage;
+							
+							    for (var i = 0; i < posts.length; i++) {
+								   var curTitle = posts[i]._doc.title;
+								   var curContents = posts[i]._doc.contents;
+								   var curWriter = posts[i]._doc.writer.email;
+								   var curNo = noStart - i;
+                                   var curDate =  posts[i]._doc.created_at;
+                                   var curHits = posts[i]._doc.hits;
+                                   var curidx = posts[i]._doc.idx;
+                                  %>
+                <tbody onclick="javascript:window.location='/process/showpost/<%=posts[i]._id %>'" id="tlist">
+                    <tr>
+                        <td>
+                            <%=curNo%>
+                        </td>
+                        <td>
+                            <%=curTitle%>
+                        </td>
+                        <td>
+                            <%=curWriter%>
+                        </td>
+                        <td>
+                            <%=curDate %>
+                        </td>
+                        <td>
+                            <%=curHits %>
+                        </td>
+                        <td>
+                            <%=curidx %>
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+        </table>
+    </div>
+
+    <div class="out">
+        <div class="in">      
+            <div class="tiny ui basic buttons" id="div_btn">
+                        <%
+					 			if (page > 0) {
+					 		%>
+                    <div class="btn btn-danger" onclick="listpost(0, <%=perPage %>)">
+                        <i class="glyphicon glyphicon-backward"></i>
+                    </div>
+                    
+                    <div class="btn btn-primary" onclick="listpost(<%=(page-1) %>, <%=perPage %>)">
+                        <i class="glyphicon glyphicon-chevron-left"></i>
+                    </div>
+                     <%
+					 			} else {
+					 		%>
+                        <div class="btn btn-danger">
+                            <i class="glyphicon glyphicon-backward"></i>
+                        </div>
+                        <div class="btn btn-primary">
+                            <i class="glyphicon glyphicon-chevron-left"></i>
+                        </div>
+                        <%
+					 			}
+					 		%>
+                            <% 
+					 			var initial = Math.floor(page / 10) * 10;
+					 			console.log('initial : ' + initial);
+					 			
+					 			var max = pageCount - initial;
+					 			if (max > 10) {
+					 				max = initial + 10;
+					 			} else {
+					 				max = initial + max;
+					 			}
+					 			console.log('max : ' + max);
+					 			
+					 			for (var i = initial; i < max; i++) {
+					 				if (i != page) {
+					 		%>
+                                <div class="btn btn-default" onclick="listpost(<%=i %>, <%=perPage %>)">
+                                    <%= i %>
+                                </div>
+                                <%
+					 				} else {
+					 		%>
+                                    <div class="btn btn-success">
+                                        <%= i %>
+                                    </div>
+                                    <% 
+					 				}
+					 			}
+					 		%>
+                                        <%
+					 			if ((page+1) < pageCount) {
+					 		%>
+                                            <div class="btn btn-primary" onclick="listpost(<%=(page+1) %>, <%=perPage %>)">
+                                                <i class="glyphicon glyphicon-chevron-right"></i>
+
+                                            </div>
+                                            <div class="btn btn-danger" onclick="listpost(<%=(pageCount-1) %>, <%=perPage %>)">
+                                                <i class="glyphicon glyphicon-forward"></i>
+                                            </div>
+                                            <%
+					 			} else {
+					 		%>
+                                                <div class="btn btn-primary">
+                                                    <i class="glyphicon glyphicon-chevron-right"></i>
+                                                </div>
+                                                <div class="btn btn-danger">
+
+                                                    <i class="glyphicon glyphicon-forward"></i>
+                                                </div>
+                                                <%
+					 			}
+					 		%>
+            
+
+            </div>
+            <br>
+            <br>
+            
+            <a class="btn btn-info glyphicon glyphicon-repeat" href='/process/listpost?page=0&perPage=3'>새로고침</a>
+            <%
+			if(id.length != 0) {
+			%>
+            <a class="btn btn-info glyphicon glyphicon-pencil" href='/process/goaddpost'>글쓰기</a>
+			<% } %>
+               <a class="btn btn-info glyphicon glyphicon-pencil" href='/public/index.html'>메인으로</a>
+                </div>
+            
+            </div>
+
+</body>
+
+</html>

@@ -1,0 +1,398 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>상품 상세</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-json-rpc@0.2.0/jquery.jsonrpc.js"></script>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+    <style>
+        .comment {
+            width: 50%;
+        }
+
+        body>div {
+            padding-top: 30px;
+        }
+         #com{
+            color:darkcyan;
+            font-size:25px;
+        }
+        #addComment{
+            vertical-align : center;
+        }
+        #submit-comment-btn{
+            margin-left : 190px;
+        }
+        
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            
+            var submitIndex = parseInt($('.panel-index:last').text());
+            if(isNaN(submitIndex) || submitIndex<0){
+                // 클릭했는데 댓글이 없는 상태여서 submitIndex가 NaN 이었다면,
+                submitIndex=0; // submitIndex를 0으로 초기화.
+            }
+            
+            // curIndex는 페이지 재로딩없이 댓글의 index를 표시하기 위해 사용.
+            // submit시에 DB는 push를 하면서 자동으로 DB에는 index+1 되지만, 
+            // 페이지에는 +1을 수동으로 해줘야 함.
+            
+            //   유효처리
+            // 1) 댓글 없는 상태에서 추가 ->                            O
+            // 2) 댓글 없는 상태에서 2개 추가 후 삭제 후 1개 추가 ->       O
+            // 3) 1개 있는 상태에서 1개 삭제 후 1개 추가 ->              O
+            // 4) 새로고침없이 1개 추가 ->                              O
+            // 5) 새로고침없이 2개 추가 1개 삭제 ->                      O       
+            // 6) 새로고침없이 2개 삭제 1개 추가 ->                      O
+            // 7) 새로고침없이 n개 추가 n개 삭제 ->                      O
+            // 8) 4개 추가하고 3->2->1->4   ->                        O
+            
+            // 9) 수정 1개만 열리게 하기  ->
+            // JSON-RPC 기본 환경 셋업
+            $.jsonRPC.setup({
+                endPoint: 'http://localhost:3000/api',
+                namespace: ''
+            });
+            $('#comment-panel').on('click', '.adjust-comment-btn',function(adjustEvent){
+                var realBtnIndex = $('.adjust-comment-btn').index(this)+1;
+                // 이 페이지에서의 index 시작은 1 이므로 +1
+                var pageBtnIndex = $(this).attr('data-value');
+                var selDivByPageIndex= 'div[data-value="'+pageBtnIndex+'"]';
+                var selPanelBody = ' > .panel-body';
+                var curComment =  $(selDivByPageIndex.concat(selPanelBody)).text();
+
+                
+                if($(".complete-adjust-btn").length<=0){
+                    $(selDivByPageIndex.concat(selPanelBody)).remove();
+                    $(selDivByPageIndex.concat('> .panel-heading')).after("<div class='panel-body'><textarea id='adjComment'>"+curComment.replace(/<br *\/?>/gi, '\n')+"</textarea></div>");
+                    $(this).attr('value','수정완료');
+                    $(this).attr('class','complete-adjust-btn');
+                    // replace는 공백을 삭제하기위해.
+                } else {
+                    console.log('댓글 수정창 중복');
+                }
+                adjustEvent.stopPropagation();// 이벤트 전파 멈춤
+            });
+            
+            $('#comment-panel').on('click', '.complete-adjust-btn',function(completeEvent){
+                var paramComment = $('#adjComment').val(); // val은 수정 textarea 박스에 입력된 값
+                var btnType = 'adj';
+                var curCode = window.location.href.split('?')[1].split('code=')[1];
+                
+                var realBtnIndex = 
+                    $('.panel-footer').index($(this).parents('.panel-footer'))+1;
+                
+                // 이 페이지에서의 index 시작은 1 이므로 +1
+                var pageBtnIndex = $(this).attr('data-value');
+                var selDivByPageIndex= 'div[data-value="'+pageBtnIndex+'"]';
+                var selPanelBody = ' > .panel-body';
+                var curComment =  $(selDivByPageIndex.concat(selPanelBody)).text();
+                var isAdjSuccess = false;
+                
+                $.jsonRPC.request('comment',{
+                    params:[{
+                        btnType:btnType,
+                        code:curCode,
+                        index:realBtnIndex-1,
+                        comment : paramComment
+                    }],
+                    success: function(data){
+                        console.log('JSON-RPC 통신 성공\n adjust 클릭 : DB의 ' + realBtnIndex + '번째 데이터 수정 -> ' + paramComment);
+                        isAdjSuccess = true;
+                        $(selDivByPageIndex.concat(selPanelBody)).remove();
+                        $('.complete-adjust-btn').attr('value','수정');
+                        $('.complete-adjust-btn').attr('class','adjust-comment-btn');
+                        $(selDivByPageIndex.concat('> .panel-heading')).after("<div class='panel-body'>"+ paramComment.replace(/(?:\r\n|\r|\n)/g, '<br />') +"</div>");
+                    },
+                    error:function(data){
+                        console.log('댓글 수정 실패');
+                        console.dir(data);
+                    }
+
+                });
+                completeEvent.stopPropagation(); // 이벤트 전파 멈춤
+            });
+            
+                
+            $('#comment-panel').on('click', '.remove-comment-btn',function(){
+                var btnType = 'del';
+                var curCode = window.location.href.split('?')[1].split('code=')[1];
+                var realBtnIndex = $('.remove-comment-btn').index(this)+1;
+                var pageBtnIndex = $(this).attr('data-value');
+                
+                $.jsonRPC.request('comment', {
+                    params: [{
+                        btnType:btnType,
+                        code:curCode,
+                        index:realBtnIndex-1 // 표시되는 index는 1부터지만,
+                                         // DB는 index가 0부터 시작되므로
+                                         // DB에 전달해줄 값은 -1을 해준다.
+                    }],
+                    success:function(data){
+                        // data-value 값은 String이므로 toString 해줌.
+                        console.log('JSON-RPC 통신 성공\n '+ 'remove하는 panel의 보여지는 index : ' + pageBtnIndex + ', 실제 index : ' + realBtnIndex);
+                        var selDivByPageIndex= 'div[data-value='+(pageBtnIndex).toString()+']';
+                        
+                        $(selDivByPageIndex).remove();
+                        submitIndex--; // 삭제되고 다음 추가할 submitIndex는 -1을 해줌.
+                    },
+                    error: function(data){
+                        console.log('댓글 삭제 실패');
+                        console.dir(data);
+                    }
+                })
+            });
+            
+                
+            // commentContainer 내에서 submit-comment-btn 버튼 click listener
+            $('#comment-panel').on('click', '#submit-comment-btn', function() {
+                
+                submitIndex++;// 표시할 index는 +1을 해주어 1부터 시작해야함.
+                var paramId = $('#idFrm').val();
+                var paramComment = $('#comment').val().replace(/\n/g, '<br>');
+                // val은 textarea 박스에 입력된 값을 DB에는 <br>로 저장
+                
+                var btnType = 'add';
+                var curCode = window.location.href.split('?')[1].split('code=')[1];
+                
+                // code를 body에 넣어주기 위해 URL을 split하고 code의 value 값을 넘겨줌.
+                $.jsonRPC.request('comment', {
+                    params: [{
+                        btnType: btnType,
+                        code: curCode,
+                        id: paramId,
+                        comment: paramComment
+                    }],
+                    // 상품코드와 ID와 코멘트를 묶어서 params로 보냄. --> request body에 들어가게 됨!!!
+                    success: function(data) {
+                        console.log('JSON-RPC 통신 성공\n submit 클릭 : DB에 ' + submitIndex + '번째 데이터 추가');
+                        var my_template = $('#mytemplate').html();
+                        var template = my_template.format(submitIndex,paramId, paramComment);
+                        // 템플릿에 들어갈 index는 -1을 함으로써 DB에서 불러온 댓글과 INDEX 순서 통일.
+                        $('#addComment').before(template);                        
+                    },
+                    error: function(data) {
+                        console.log('댓글 추가 실패');
+                        console.dir(data);
+                    }
+                });
+                
+            });
+			
+			$('#loginBtn').on('click',function(){
+				location.href = '/process/gologin';
+			});
+			$('#joinBtn').on('click',function(){
+				location.href = '/process/goadduser';
+			});
+			$('#logoutBtn').on('click',function(){
+				location.href = '/process/logout';
+			});
+			$('#mypageBtn').on('click',function(){
+				location.href = '/process/mypage';
+			});
+			$('#adminBtn').on('click',function(){
+				location.href = '/admin/listproduct';
+			});
+			$('#reviewBtn').on('click',function(){
+				location.href = '/process/listpost?page=0&perPage=3';
+			});
+			$('#buyBtn').on('click',function(){
+				location.href = '/process/addBuy'
+			})
+        });
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+                <a class="navbar-brand" href="/process/listproduct">Bag Shop</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <form class="navbar-form navbar-right" method='post' action="/process/searchproduct">
+                    <div class="form-group">
+                        <input type="text" name="name" class="form-control" value="검색할 단어를 입력" onblur="this.value='검색할 단어를 입력'" onfocus="this.value=''">
+                    </div>
+                    <button type="submit" class="btn btn-success">Search</button>
+                    <%
+					if(!userInfo.id) {
+					%>
+                    <button type="button" class="btn btn-primary" id="loginBtn">로그인</button>
+                    <button type="button" class="btn btn-primary" id="joinBtn">회원가입</button>
+                    <%
+					} else {
+					%>
+               		<button type="button" class="btn btn-primary" id="logoutBtn">로그아웃</button>
+               		<%
+			  			if(userInfo.mcode == "M"){ 
+				  		// 관리자(Master)라면
+					%>
+				   <button type="button" class="btn btn-primary" id="adminBtn">관리자페이지</button>
+					<%
+						} else {
+					%>
+					<button type="button" class="btn btn-primary" id="mypageBtn">마이페이지</button>
+					<%
+					 } }
+					%>
+				   <button type="button" class="btn btn-primary" id="reviewBtn">리뷰게시판</button>
+                </form>
+            </div>
+            <!--/.navbar-collapse -->
+        </div>
+    </nav>
+    <div class="panel panel-default">
+        <h2 class="panel-heading">상품 리스트</h2>
+        <% result.forEach(function(data,index){ %>
+            <table class="table">
+                <tr>
+                    <th>상품사진</th>
+                    <th>상품이름</th>
+                    <th>가격</th>
+                </tr>
+            <%
+            var curPhoto = data._doc.photo;
+            var curName = data._doc.name;
+            var curPrice = data._doc.price;
+            var curCategory = data._doc.category;
+            var curDesc = data._doc.description;
+            var commentList = data._doc.commentList;
+            %>
+                <tr>
+                    <td rowspan=3><img src="/uploads/<%= curPhoto %>" width=400px height=400px></td>
+                    <td>
+                        <%= curName %>
+                    </td>
+                    <td>
+                        <%= curPrice %>
+                    </td>
+                </tr>
+                <tr>
+                    <th height=50px>카테고리 </th>
+                    <th>상품 설명</th>
+                </tr>
+                <tr>
+                    <td>
+                        <%= curCategory %>
+                    </td>
+                    <td>
+                        <%= curDesc %>
+                    </td>
+                </tr>
+                <%
+					if(userInfo.id) {
+					%>
+                <tr>
+                	<td colspan="2">
+                	
+                	<form method="post" action="/process/addBuy"> 
+                	<input type="hidden" name="id" value="<%=userInfo.id%>">
+                	<input type="hidden" name="buycate" value="<%= curCategory %>">
+                	<input type="hidden" name="buyname" value="<%= curName %>">
+                	<input type="hidden" name="buyprice" value="<%= curPrice %>">
+                		<button type="submit" class="btn btn-success btn-lg" id='buyBtn'>구매</button>
+                	</form>
+                	</td>
+                </tr>
+                <%
+				}
+					%>
+            </table>
+            <div id='comment-panel'>
+                    <label class="control-label" for="inputSuccess2" id="com"><strong><br/>COMMENT LIST</strong></label>
+                <% commentList.forEach(function(data,index){ %>
+                        <%
+                        var commentId = data.id;
+                        var commentContents = data.comment.replace(/\n/gi,'<br/>');
+                        %>
+                <div class="panel panel-default" id='commentContainer' data-value="<%= index+1 %>">
+                        <div class="panel-heading">
+                            <h6 class="panel-index">
+                                <%= index+1 %>
+                            </h6>
+                            <h3 class="panel-title">
+                                <%= commentId %>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <%= commentContents %>
+                        </div>
+                        <div class="panel-footer">
+                           <%
+							if(userInfo.id && userInfo.id == commentId){
+							%>
+                            <input type='button' value='삭제' data-value="<%= index+1 %>" class='remove-comment-btn'>
+                            <input type='button' value='수정' data-value="<%= index+1 %>" class='adjust-comment-btn'>
+                            <%
+							}
+							%>
+                        </div>
+                </div>
+                            <% }) %>
+                <% }) %>
+                <%
+					if(userInfo.id) {
+				%>
+                <form id='addComment'>
+                     <p><strong>ID</strong></p>
+                    <input type='form' id='idFrm' name='id' style="width:110pt;height:25pt;" value="<%=userInfo.id%>" readonly> 
+                    <button type="button" class="btn btn-success btn-lg" id='submit-comment-btn'>WRITE</button>
+                    <br/><br/> <p><Strong>COMMENT</Strong></p>
+                    <textarea id="comment" name='comment' style="width:350pt;height:100pt;"></textarea>
+                    
+                    
+                </form>
+                 
+                <%
+				}
+				%>
+            </div>
+    </div>
+</body>
+
+<script>
+    // 스크립트를 이용한 html 템플릿을 사용 하기 위한 함수
+    String.prototype.format = function() {
+        var args = arguments;
+        return this.replace(/{(\d+)}/g, function(match, number) {
+            return typeof args[number] != 'undefined' ? args[number] : match;
+        });
+    }
+</script>
+<script type='text/template' id='mytemplate'>
+    <div class="panel panel-default" id='commentContainer' data-value={0}>
+        <div class="panel-heading">
+            <h6 class="panel-index">{0}</h6>
+            <h3 class="panel-title">{1}</h3>
+        </div>
+        <div class="panel-body">
+            {2}
+        </div>
+        <div class="panel-footer">
+            <input type='button' value='삭제' data-value={0} class='remove-comment-btn'>
+            <input type='button' value='수정' data-value={0} class='adjust-comment-btn'>
+        </div>
+    </div>
+</script>
+
+</html>

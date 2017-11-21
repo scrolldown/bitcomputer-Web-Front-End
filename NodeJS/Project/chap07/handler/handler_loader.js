@@ -61,15 +61,16 @@ function initHandlers(jayson, app, api_path) {
         // RPC 함수 호출
         console.log('RPC 함수를 호출합니다.');
         jaysonServer.call(req.body, function (error, success) {
+
             var response = error || success;
 
-            console.log(response);
-
+            
             // 결과 데이터를 JSON으로 만들어 응답
             utils.JSON.stringify(response, options, function (err, body) {
                 if (err) return err;
 
                 if (body) {
+                    console.log(body+'---------------');
                     var headers = {
                         "Content-Length": Buffer.byteLength(body, 'utf-8'),
                         "Content-Type": "application/json"

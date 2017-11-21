@@ -15,14 +15,17 @@
             
             $('#requestButton').click(function(){
                 var message = $('#messageInput').val(); // val은 textarea 박스에 입력된 값
-                
+                var paramId=1001;
                 $.jsonRPC.request('echo', {
-                    id:1001,
-                    params:[message],
+                    id:paramId,
+                    params:[{
+                             id : paramId,
+                             comment : message
+                            }],
                     success: function(data){
                         println('정상 응답을 받았습니다.');
                         console.dir(data);
-                        println(data.result);
+                        println(data.result[0].id + data.result[0].comment);
                     },
                     error: function(data){
                         println('에러 응답을 받았습니다.');

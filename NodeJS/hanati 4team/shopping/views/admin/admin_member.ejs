@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>관리자페이지</title>
+	<!-- 합쳐지고 최소화된 최신 CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+	
+	<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<!-- Custom styles for this template -->
+    <link href="http://bootstrapk.com/examples/dashboard/dashboard.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script>
+		$(document).ready(function(){
+			// 블랙리스트 버튼이벤트
+			$(document).on('click',".black",function(){
+				var mcode = $(this).attr('name');
+				var isModify = (mcode == 'N') ? confirm('블랙리스트로 등록할까요?') : confirm('블랙리스트를 해제할까요?');
+				if(isModify) {
+					var param = { 'id':$(this).attr('id'), 'mcode': (mcode == 'N') ? 'B' : 'N'};
+					
+					location.href = '/admin/setblacklist?id='+param.id+'&mcode='+param.mcode;
+					
+				} else {
+					return;
+				}
+			});
+			
+			// 포인트변경 버튼이벤트
+			$(document).on('click',".modify",function(){
+				var point = prompt('변경할 포인트를 입력하세요');
+				/////////////////////////////////////////////////// 처리 필요 //////////////////////////////////////////////
+				var id = $(this).attr('name');
+				
+				if(point != null) {
+					if(!$.isNumeric(point) || point < 0) {
+						alert('올바른 값을 입력해 주세요.');
+						return;
+					}
+					else {
+						location.href='/admin/setmoney?id='
+						+ id + '&money='+poing;
+					}
+				}
+			});
+           
+			// 아이디 검색 (AJAX 사용)
+            $('#search').on('keyup',function(){
+                var searchWord = $(this).val();
+                var param = {'searchWord':searchWord};
+
+                
+                $.ajax({
+                    url:'/admin/api/like-search-member',
+                    data:param,
+                    dataType:'json',
+                    type:'get',
+                    success:function(datas){
+                        var results = datas;
+						console.dir(results);	// 확인용
+						$('#ajax-body').empty();
+                        if(results.length != 0) {
+							for(var i=0; i<results.length; i++) {
+								var my_template = $('#myTemplate').html();
+                                var template = my_template.format(results[i].id,
+																  results[i].tel,
+																  results[i].name,
+																  results[i].email,
+                                                                  results[i].money,
+																  results[i].id,
+																  results[i].id);
+								$('#ajax-body').append(template);
+								var btn_template = $('#btnTemplate').html();
+								if(results[i].mcode == 'N') {
+									var btn = btn_template.format(results[i].id,
+																  results[i].mcode,
+																 '등록');
+									$("[name='"+results[i].id+"']").append(btn);
+								} else if(results[i].mcode =='B') {
+									var btn = btn_template.format(results[i].id,
+																  results[i].mcode,
+																 '해제');
+									$("[name='"+results[i].id+"']").append(btn);
+								}
+							}
+                        }
+                    }
+                });
+            });
+			
+		});
+	</script>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            	<span class="sr-only">Toggle navigation</span>
+            	<span class="icon-bar"></span>
+            	<span class="icon-bar"></span>
+            	<span class="icon-bar"></span>
+          		</button>
+				<a class="navbar-brand" href="/admin/listproduct">Admin Page</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/process/listproduct">Main</a></li>
+					<li><a href="/process/logout">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li><a href="/admin/listproduct">상품관리 <span class="sr-only">(current)</span></a></li>
+					<li class="active"><a href="/admin/listmember">회원관리</a></li>
+				</ul>
+				
+			</div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<h1 class="page-header">회원관리</h1>
+				<div>
+                    <span>
+                        <input type="text" id="search" name="search" placeholder="아이디로 검색">
+                    </span>
+                </div>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>아이디</th>
+								<th>전화번호</th>
+								<th>이름</th>
+								<th>이메일</th>
+								<th>포인트</th>
+								<th>블랙리스트</th>
+							</tr>
+						</thead>
+						<tbody id="ajax-body">
+						<% results.forEach(function(data, index){
+							var id = data._doc.id;
+							var tel = data._doc.tel;
+							var name = data._doc.name;
+							var email = data._doc.email;
+							var money = data._doc.money;
+							var mcode = data._doc.mcode;
+						%>
+							<tr>
+								<td><%=id%></td>
+								<td><%=tel%></td>
+								<td><%=name%></td>
+								<td><%=email%></td>
+								<td><%=money%></td>
+								<td name="<%=id%>">
+								<% if(mcode == 'N') { %>
+									<button class="btn btn-sm black" id="<%=id%>" name="<%=mcode%>">등록</button>
+								<% } else if(mcode == 'B') { %>
+									<button class="btn btn-sm black" id="<%=id%>" name="<%=mcode%>">해제</button>
+								<% } %>
+								</td>
+							</tr>
+						<% }); %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+ <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="../../assets/js/vendor/holder.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+<script>
+// 스크립트를 이용한 html 템플릿을 사용하기 위한 함수
+String.prototype.format = function(){
+	var args = arguments;
+	return this.replace(/{(\d+)}/g, function(match, number){
+		return typeof args[number] != 'undefined' ? args[number] : match;
+	});
+}
+</script>
+<script type="text/template" id="myTemplate">
+    <tr>
+		<td>{0}</td>
+		<td>{1}</td>
+		<td>{2}</td>
+		<td>{3}</td>
+		<td>{4}</td>
+		<td name="{5}"></td>
+	</tr>
+</script>
+<script type="text/template" id="btnTemplate">
+	<button class="btn btn-sm black" id="{0}" name='{1}'>{2}</button>
+</script>
+</html>

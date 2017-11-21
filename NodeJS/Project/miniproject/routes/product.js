@@ -6,11 +6,9 @@ var listProduct = function(req,res){
             if(err) throw err;
 
             if(results){
-                console.dir(results);
-
                 res.writeHead(200,{'Content-Type':'text/html;charset=utf8'});
                 var context = {results:results};
-                console.log(results);
+               console.log(context);
                 req.app.render('listproduct',context,function(err,html){
                     if(err) throw err;
                     res.end(html);

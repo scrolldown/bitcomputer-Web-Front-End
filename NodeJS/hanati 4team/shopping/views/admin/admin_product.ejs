@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>관리자페이지</title>
+	
+	<!-- 합쳐지고 최소화된 최신 CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<!-- Custom styles for this template -->
+	<link href="http://bootstrapk.com/examples/dashboard/dashboard.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+	
+	<script>
+		$(document).ready(function(){
+			$(document).on('click','.delete',function(){
+				var isDelete = confirm('상품을 삭제하시겠습니까?');
+				if(isDelete) {
+					location.href='/admin/deleteproduct?pcode='+$(this).attr('id');
+				} else {
+					return;
+				}
+			});
+           
+            $('#search').on('keyup',function(){
+                //alert($('#search').val());
+                var searchWord = $(this).val();
+                var param = {'searchWord':searchWord};
+
+                
+                $.ajax({
+                    url:'/admin/api/like-search-product',
+                    data:param,
+                    dataType:'json',
+                    type:'get',
+                    success:function(datas){
+                        var results = datas;
+						$('#ajax-body').empty();
+                        if(results.length != 0) {
+							for(var i=0; i<results.length; i++) {
+								var my_template = $('#myTemplate').html();
+                                var template = my_template.format(results[i].photo,
+																  results[i].pcode,
+																  results[i].category,
+																  results[i].name,
+                                                                  results[i].price,
+																  results[i].pcode,
+																  results[i].pcode);
+                                $('#ajax-body').append(template);
+							}
+                        }
+                    }
+                });
+            });
+			
+		});
+	</script>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            	<span class="sr-only">Toggle navigation</span>
+            	<span class="icon-bar"></span>
+            	<span class="icon-bar"></span>
+            	<span class="icon-bar"></span>
+          		</button>
+				<a class="navbar-brand" href="/admin/listproduct">Admin Page</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/process/listproduct">Main</a></li>
+					<li><a href="/process/logout">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li class="active"><a href="/admin/listproduct">상품관리 <span class="sr-only">(current)</span></a></li>
+					<li><a href="/admin/listmember">회원관리</a></li>
+				</ul>
+
+			</div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<h1 class="page-header">상품관리</h1>
+				<div>
+                    <span>
+                        <button class="btn btn-sm" onclick="location.href='/admin/goinsertproduct'">새 상품 등록</button>
+                    </span>
+                    <span>
+                        <input type="text" id="search" name="search" placeholder="상품명으로 검색">
+                    </span>
+                </div>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>사진</th>
+								<th>상품코드</th>
+								<th>카테고리</th>
+								<th>상품명</th>
+								<th>가격</th>
+								<th>관리</th>
+							</tr>
+						</thead>
+						<tbody id="ajax-body">
+							<% results.forEach(function(data, index){
+							var photo = data._doc.photo;
+							var pcode = data._doc.pcode;
+							var category = data._doc.category;
+							var name = data._doc.name;
+							var price = data._doc.price;
+						%>
+								<tr>
+									<td>
+										<img src="/uploads/<%=photo%>" class="img-thumbnail" width="100px" height="100px">
+									</td>
+									<td>
+										<%=pcode%>
+									</td>
+									<td>
+										<%=category%>
+									</td>
+									<td>
+										<%=name%>
+									</td>
+									<td>
+										<%=price%>
+									</td>
+									<td>
+										<button class="btn btn-sm" onclick="location.href='/admin/goupdateproduct?pcode=<%=pcode%>'">수정</button>
+										<button class="btn btn-sm delete" id="<%=pcode%>">삭제</button>
+									</td>
+								</tr>
+								<% }); %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="../../dist/js/bootstrap.min.js"></script>
+	<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+	<script src="../../assets/js/vendor/holder.js"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+<script>
+// 스크립트를 이용한 html 템플릿을 사용하기 위한 함수
+String.prototype.format = function(){
+	var args = arguments;
+	return this.replace(/{(\d+)}/g, function(match, number){
+		return typeof args[number] != 'undefined' ? args[number] : match;
+	});
+}
+</script>
+<script type="text/template" id="myTemplate">
+    <tr>
+        <td>
+			<img src="/uploads/{0}" class="img-thumbnail" width="100px" height="100px">
+        </td>
+        <td>
+            {1}
+        </td>
+        <td>
+            {2}
+        </td>
+        <td>
+            {3}
+        </td>
+        <td>
+            {4}
+        </td>
+        <td>
+            <button class="btn btn-sm" onclick="location.href='/admin/goupdateproduct?pcode={5}'">수정</button>
+            <button class="btn btn-sm delete" id="{6}">삭제</button>
+        </td>
+    </tr>
+</script>
+</html>

@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>회원가입 페이지</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script>
+        //중복되면 색 변하는 텍스트
+        
+        $(document).ready(function(){
+           $("#inputId").blur(function(){
+              
+               var userInput = $(this);
+               var param = $(userInput).serialize();
+               
+               console.log(param);
+             
+               $.ajax({
+                   url:'/api/user/dup-check',
+                   data:param,
+                   dataType:'json',
+                   type:'get',
+                   success:function(data){
+                       if(data.msg == 'ok'){
+                           $(userInput).css('border', '1px solid green');
+                           $('#isDup').text('사용 가능합니다');
+                           $('#isDup').css('color','darkcyan');
+                       }else{
+                           $(userInput).css('border','1px solid red');
+                           $('#isDup').text('이미 존재하는 아이디입니다');
+                           $('#isDup').css('color','red');
+                       }
+                   }
+                   
+               });
+           }) 
+        });
+    </script>
+    
+    <style>
+        #adduser_main {
+            border: 10px solid;
+            margin: auto;
+            width: 55%;
+            color: darkcyan
+        }
+        #inputId {
+            width:89%;
+        }
+        #inputPassword {
+            width:89%;
+        }
+        #inputName {
+            width:89%;
+        }
+        #inputTel {
+            width:89%;
+        }
+        #inputEmail {
+            width:89%;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <br/>
+    <br/>
+    <br/>
+    <h1 class="text-center" style="color:cadetblue"><strong>WELCOME</strong></h1>
+    <br/>
+    <form class="form-horizontal" method="post" action="/process/adduser">
+    <div id="adduser_main">
+        <br/>
+
+
+        
+            <br/>
+            <div class="form-group">
+                <label for="inputId" class="col-sm-2 control-label">ID</label>
+                <div class="col-sm-10">
+                    <input type="ID" name='id' class="form-control" id="inputId" placeholder="id">
+                    <label id='isDup'></label>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="inputPassword" class="col-sm-2 control-label">PASSWORD</label>
+                <div class="col-sm-10">
+                    <input type="password" name='password' class="form-control" id="inputPassword" placeholder="password">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputName" class="col-sm-2 control-label">NAME</label>
+                <div class="col-sm-10">
+                    <input type="NAME" name='name' class="form-control" id="inputName" placeholder="name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputTel" class="col-sm-2 control-label">Tel.Number</label>
+                <div class="col-sm-10">
+                    <input type="TEL" name='tel' class="form-control" id="inputTel" placeholder="tel">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail" class="col-sm-2 control-label">EMAIL</label>
+                <div class="col-sm-10">
+                    <input type="EMAIL" name='email' class="form-control" id="inputEmail" placeholder="email">
+                </div>
+            </div>
+            <br/>
+        
+    </div>
+    <br/>
+    <br/>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success btn-lg"><strong>JOIN US</strong></button>
+
+    </div>
+</form>
+</body>
+
+</html>

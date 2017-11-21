@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>구매 페이지</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <style>
+        .container {
+            background-color: cadetblue;
+            color: burlywood;
+        }
+
+        img {
+            width: 300px;
+            height: 300px;
+        }
+        #img {
+            width: 100px;
+            height: 100px;
+        }
+        #vertical-align {
+            vertical-align: middle;
+            display: table-cell;
+        }
+
+        h1 {
+            color: darkgreen;
+        }
+
+        td {
+            color: black;
+            font-size: 25px;
+        }
+
+        th {
+
+            font-size: 17px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="container">
+        <h1><strong>Purchase Success!!!!</strong></h1>
+        <table border="1px" class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">Product Image</th>
+                    <th class="text-center">Product Name</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Money</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td class="text-center" id="table-vertical-align"><img src="img.jpg" class="img-thumbnail" alt="product" /></td>
+                <td class="text-center" id="vertical-align"><strong>1</strong></td>
+                <td class="text-center" id="vertical-align"><strong>$1</strong></td>
+                <td class="text-center" id="vertical-align"><strong>1</strong></td>
+            </tbody>
+        </table>
+        <br/>
+        <br/>
+        <br/>
+        <div class="col-md-6" align="center"><button type="button" class="btn btn-success btn-lg text-center">Main</button></div>
+        <div class="col-md-6" align="center"><button type="button" class="btn btn-warning btn-lg">My Purchase</button><br/><br/><br/><br/></div>
+        <br/>
+        <br/>
+    </div>
+</body>
+
+</html>

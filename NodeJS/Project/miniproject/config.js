@@ -28,5 +28,8 @@ module.exports = {
             method:'showProductInfo',
             type:'get'
         }
-    ]
+    ],
+    jsonrpc_api_path : '/addcommentapi' // RPC 실행시 http://localhost:3000/addcommentapi 가 POST 실행.
+                                        // 즉, 라우트 등록과 같음.
+                                        // 변경시 app의 4)JSON RPC Handler 변경
 }

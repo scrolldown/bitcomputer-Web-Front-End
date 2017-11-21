@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>구매내역 페이지</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
+
+    <style>
+        #history_main {
+            border: 10px solid;
+            padding: 30px;
+            margin: auto;
+            width: 60%;
+            color: darkcyan;
+        }
+        #table{
+            width : 90%;
+            margin: auto;
+        }
+        img {
+            width: 100px;
+            height: 100px;
+        }
+        #vertical-align {
+            vertical-align: middle;
+            display: table-cell;
+        }
+        td {
+            color: black;
+            font-size: 25px;
+        }
+        th {
+            color:darkslategrey;
+            font-size: 17px;
+        }
+		
+    </style>
+    <script>
+		$(document).ready(function(){
+			$('#mainBtn').on('click',function(){
+				location.href='/public/index.html';
+			});
+			$('#myPageBtn').on('click',function(){
+				location.href='/process/mypage';
+			});
+		});
+	</script>
+</head>
+
+<body>
+    <br/>
+    <br/>
+    <br/>
+    <h1 class="text-center" style="color:cadetblue"><strong>MY PURCHASE HISTORY</strong></h1>
+    <br/>
+    <div id="history_main">
+    <form class="form-horizontal">
+        <table border="2px" class="table table-borded" id="table">
+            <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Category</th>
+                    <th class="text-center">Product Name</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">DATE</th>
+                </tr>
+            </thead>
+            <tbody>
+               <% results.forEach (function(data,index){ %>
+                <%   
+                    var curId= data._doc.id;
+                    var curCate= data._doc.buycate;
+                    var curName = data._doc.buyname;
+                    var curPrice = data._doc.buyprice;
+                    var curTime  = data._doc.created_at;
+                %><tr>
+                    <td class="text-center" id="vertical-align"><strong><%=curId%></strong></td>
+                    <td class="text-center" id="vertical-align">
+                    <strong><%=curCate%></strong></td>
+                    <td class="text-center" id="vertical-align"><strong><%=curName%></strong></td>
+                    <td class="text-center" id="vertical-align"><strong><%=curPrice%></strong></td>
+                    <td class="text-center" id="vertical-align"><strong><%=curTime%></strong></td>
+                </tr>
+                
+                <% }) %>                
+            </tbody>
+        </table>
+    </form>
+    </div>
+    <div class="text-center">
+    <br/><br/>
+    <button type="button" class="btn btn-success btn-lg" id='mainBtn'>MAIN</button>
+    <button type="button" class="btn btn-success btn-lg" id='myPageBtn'>MYPAGE</button>
+    </div>
+</body>
+
+</html>

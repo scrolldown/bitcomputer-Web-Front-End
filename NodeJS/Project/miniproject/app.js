@@ -25,7 +25,11 @@ var database = require('./database/database');
 // 4. 라우팅 모듈 불러오기 (route_loader.js)
 var route_loader = require('./routes/route_loader');
 
+// 5. JSON-RPC 모듈 불러오기
+var jayson = require('jayson');
 
+// 핸들러 로더 (handler_loader.js) 불러오기
+var handler_loader = require('./commentHandler/handler_loader');
 
 
 // --- DB 연결객체에서 사용할 함수.
@@ -46,6 +50,7 @@ console.log('ejs 뷰 엔진 설정 성공');
 
 app.use('/public',static(path.join(__dirname,'public')));
 app.use('/uploads',static(path.join(__dirname,'uploads')));
+
 // 2) 각 미들웨어 모듈 설정하기
 //      2-1) body-parser
 app.use(bodyParser.urlencoded({extended:false}));
@@ -64,7 +69,13 @@ app.use(expressSession({
 route_loader.init(app, express.Router());
 
 
-// 4) 에러처리
+// 4) JSON RPC 핸들러 등록
+//      **** JSON RPC 핸들러 등록 초기화는 라우터 밑에 존재 해야 한다.****
+var jsonrpc_api_path = config.jsonrpc_api_path || '/addcommentapi';
+// 핸들러 로더 초기화 하기
+handler_loader.init(jayson, app, jsonrpc_api_path);
+
+// 5) 에러처리
 var errorHandler = expressErrorHandler({
     static:{
         '404':'./public/404.html'
@@ -74,7 +85,7 @@ var errorHandler = expressErrorHandler({
 app.use(expressErrorHandler.httpError(404));
 app.use(errorHandler);
 
-// 5) 서버 실행
+// 6) 서버 실행
 http.createServer(app).listen(app.get('port'),function(){
     console.log('Express 서버 실행 :%d',app.get('port'));
     
