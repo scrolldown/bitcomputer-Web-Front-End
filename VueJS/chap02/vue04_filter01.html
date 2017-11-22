@@ -1,0 +1,69 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>작성자 분류 필터 만들기</title>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1> Alex의 이야기</h1>
+        <ul class='list-group'>
+            <li class='list-group-item' v-for="story in storiesBy('Alex')">
+                {{ story.writer }}이 "{{ story.plot }}"이라고 합니다.
+            </li>
+        </ul>
+
+        <h1>John의 이야기</h1>
+        <ul class='list-group'>
+            <li class='list-group-item' v-for="story in storiesBy('John')">
+                {{ story.writer }}이 "{{ story.plot }}"이라고 합니다.
+            </li>
+        </ul>
+        <pre>{{$data}}</pre>
+    </div>
+</body>
+<script src="https://unpkg.com/vue"></script>
+<script>
+    var vm = new Vue({
+        el: '.container',
+        data: {
+            stories: [{
+                writer: 'John',
+                plot: '존이야기1'
+            }, {
+                writer: 'Alex',
+                plot: '알렉스이야기1'
+            }, {
+                writer: 'Alex',
+                plot: '알렉스이야기2'
+            }, {
+                writer: 'John',
+                plot: '존이야기2'
+            }]
+        },
+        methods: {
+            storiesBy: function(writer) {
+                return this.stories.filter(function(story) { // this : vue객체.
+                    // filter : 검색. (원본데이터 변경 없음.)
+                    // sort : 정렬
+                    // map : 매핑
+                    return story.writer === writer; // True가 반환된 객체에 대해서만 filter를 함.
+                });
+            }
+        }
+    })
+</script>
+
+</html>

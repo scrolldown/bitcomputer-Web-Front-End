@@ -1,0 +1,50 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>컴포넌트와 Vue 객체 연결해보기</title>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <div class='container'>
+        <!-- 객체를 연결하는 방법 2가지 -->
+        <!-- 1. v-bind 사용하기 : 단방향 바인딩할 때 사용했음. -->
+        <story v-bind:my-story="{plot:'v-bind 사용', writerName:'Mr.Ooooooh'}"></story>
+
+        <!-- 2. v-bind의 축약형인 : 사용. -->
+        <story :my-story="{plot:'축약형 사용',writerName:'Mr. Oh'}"></story>
+    </div>
+</body>
+
+<!-- component의 주석으로 사용될 template 등록하기  -->
+<!-- 1. template의 고유 ID 값을 지정한 후, template 의 DOM 설정. -->
+<template id='story-template'>
+    <h1>{{ myStory.plot }} : {{ myStory.writerName }} </h1>
+</template>
+
+<script src='https://unpkg.com/vue'></script>
+<script>
+    // Vue 컴포넌트 등록하기 - 인라인 템플릿 사용.
+    Vue.component('story', { // story라는 컴포넌트를 만들기 위한 옵션을 {}(객체)로 지정.
+        props: ['myStory'], // 컴포넌트 내에서 사용되는 값을 전달해주는 변수 역할의 property
+        // 여기서는 CamelCase를 사용한다.
+        template: '#story-template'
+    });
+
+    var vm = new Vue({
+        el: '.container'
+    })
+</script>
+
+</html>

@@ -1,0 +1,84 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>filter 예제1</title>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script>
+        // 인기없는 이야기div에서 투표 버튼 눌러서 일정 수 이상 올라가면 인기있는 이야기 div로 올라가기.
+    </script>
+</head>
+
+<body>
+    <div class='container'>
+        <h1> 인기 있는 이야기가 {{ popular.length }}개 있습니다.</h1>
+        <ul class='list-group'>
+            <li class='list-group-item' v-for='popularStory in popular'>
+                {{ popularStory.writer }} 의 {{ popularStory.plot }}
+            </li>
+        </ul>
+
+        <h1> 아직 이야기가 {{ stories.length - popular.length }}개 남아있습니다.</h1>
+        <ul class='list-group'>
+            <li class='list-group-item' v-for='notPopularStory in notPopular'>
+                <button @click='upVote(notPopularStory)' class='btn btn-default'>투표</button> {{ notPopularStory.writer }} 의 {{ notPopularStory.plot }}
+                <span class='badge'>{{ notPopularStory.votes }}</span>
+            </li>
+        </ul>
+
+    </div>
+</body>
+<script src='https://unpkg.com/vue'></script>
+<script>
+    var chkPopular = 10;
+    var vm = new Vue({
+        el: '.container',
+        data: {
+            stories: [{
+                writer: 'John',
+                plot: '이야기A',
+                votes: 20
+            }, {
+                writer: 'Alex',
+                plot: '이야기B',
+                votes: 0
+            }, {
+                writer: 'Michael',
+                plot: '이야기C',
+                votes: 0
+            }, {
+                writer: 'Mattew',
+                plot: '이야기D',
+                votes: 0
+            }]
+        },
+        methods: {
+            upVote: function(obj) {
+                obj.votes++;
+            }
+        },
+        computed: {
+            popular: function() {
+                return this.stories.filter(function(story) {
+                    return story.votes > chkPopular;
+                })
+            },
+            notPopular: function() {
+                return this.stories.filter(function(story) {
+                    return story.votes <= chkPopular;
+                })
+            }
+        }
+    })
+</script>
+
+</html>

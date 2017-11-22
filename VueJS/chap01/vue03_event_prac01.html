@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,20 +9,24 @@
 
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <script>
         /*
-        [실습] 반장선거를 진행 하려고 한다. 이름과 투표수 데이터를 갖고 각각의 후보자들을 투표 할 수 있는 버튼을 각각 만들어 버튼이 눌러지면 해당하는 투표자의 투표수가 오를 수 있도록 해보자. 이 때 가장 높은 투표를 받은 사람 순서대로(내림차순) 정렬이 되도록 만들어 보자. 또한 리셋 버튼을 만들어 버튼이 눌리면 모든 투표수가 초기화 될 수 있도록 만들어 보자.
+        [실습] 반장선거를 진행 하려고 한다.
+        이름과 투표수 데이터를 갖고 각각의 후보자들을 투표 할 수 있는 버튼을 각각 만들어 버튼이 눌러지면 해당하는 투표자의 투표수가 오를 수 있도록 해보자.
+        이 때 가장 높은 투표를 받은 사람 순서대로(내림차순) 정렬이 되도록 만들어 보자.
+        또한 리셋 버튼을 만들어 버튼이 눌리면 모든 투표수가 초기화 될 수 있도록 만들어 보자.
         */
     </script>
 </head>
+
 <body>
     <div class='container'>
-        
+
         <ul class='list-group'>
             <li class='list-group-item' v-for='(person,index) in people.sort(function (a,b){ return b.vote - a.vote })'>
-               {{ person.name }} {{ person.vote }}
-                <button @click='person.vote++' class='btn btn-default'>투표</button>
+                {{ person.name }} {{ person.vote }}
+                <button @click='upVote(person)' class='btn btn-default'>투표</button>
             </li>
         </ul>
         <button @click='map' class='btn btn-default'>초기화</button>
@@ -31,51 +36,38 @@
 <script src='https://unpkg.com/vue'></script>
 <script>
     var vm = new Vue({
-        el:'.container',
-        data:{
-            people:[
-                {
-                    name:'Mr.Black',
-                    vote:0
-                },
-                {
-                    name:'Mr.Red',
-                    vote:0
-                },
-                {
-                    name:'Mr.Green',
-                    vote:5
-                },
-                {
-                    name:'Mr.Yellow',
-                    vote:0
-                }
-            ]
+        el: '.container',
+        data: {
+            people: [{
+                name: 'Mr.Black',
+                vote: 0
+            }, {
+                name: 'Mr.Red',
+                vote: 0
+            }, {
+                name: 'Mr.Green',
+                vote: 5
+            }, {
+                name: 'Mr.Yellow',
+                vote: 0
+            }]
         },
-        methods:{
-            map : function(){
+        methods: {
+            map: function() {
                 console.log('map');
-                this._data.people.forEach(function(value, index){
-                    value.vote=0;
+                this.people.forEach(function(value, index) {
+                    value.vote = 0;
                 })
             },
-            upVote : function(){
+            upVote: function(obj) {
                 console.log('vote');
-                this.vote++;
+                obj.vote++;
             }
+        },
+        computed: {
+
         }
     })
 </script>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

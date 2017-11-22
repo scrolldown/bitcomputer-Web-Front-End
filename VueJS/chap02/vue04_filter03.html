@@ -1,0 +1,91 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>쿼리로 Filter링 하기</title>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class='container'>
+        <h1>Alex의 이야기</h1>
+        <ul class='list-group'>
+            <li class='list-group-item' v-for="story in storiesBy('Alex')">
+                {{ story.writer }} said
+                <ul>
+                    <li class='list-group-item' v-for='i in story.plot'>
+                        {{ i }}
+                    </li>
+                </ul>
+
+            </li>
+        </ul>
+
+        <div class='form-group'>
+            <label for='query'> 누구의 글을 찾나요 ? </label>
+            <input v-model='query' class='form-control' placeholder='작성자를 입력하세요'>
+        </div>
+
+        <ul class='list-group'>
+            <li class='list-group-item' v-for='story in search'>
+                {{ story.writer }} {{ story.plot }}
+            </li>
+        </ul>
+
+        <pre> {{$data}} </pre>
+        <!-- pre태그는 JSON 형태를 보기 쉽게 해줌 -->
+    </div>
+</body>
+
+<script src='https://unpkg.com/vue'></script>
+<script>
+    var vm = new Vue({ // this가 안먹히는 공간까지 vue객체에 접근할 수 있도록 vue 객체를 변수화.
+        el: '.container',
+        data: {
+            stories: [{
+                writer: 'John',
+                plot: ['이야기A'],
+                votes: 20
+            }, {
+                writer: 'Alex',
+                plot: ['이야기B', '이야기B-1', '이야기B-2'],
+                votes: 0
+            }, {
+                writer: 'Michael',
+                plot: ['이야기C'],
+                votes: 0
+            }, {
+                writer: 'Mattew',
+                plot: ['이야기D'],
+                votes: 0
+            }],
+            query: ''
+        },
+        methods: {
+            storiesBy: function(writer) {
+                return this.stories.filter(function(story) {
+                    return story.writer === writer;
+                });
+            }
+        },
+        computed: {
+            search: function() {
+                var query = this.query;
+                return this.stories.filter(function(story) {
+                    return story.plot.includes(query);
+                });
+            }
+        }
+    })
+</script>
+
+</html>

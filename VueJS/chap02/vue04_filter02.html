@@ -1,0 +1,63 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Filter 계산된 프로퍼티 computed </title>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class='container'>
+        <h1> 인기 있는 이야기 보기 - {{ famous.length }} 개의 인기 있는 이야기가 있습니다.</h1>
+
+        <ul class='list-group'>
+            <li class='list-group-item' v-for="story in famous">
+                {{ story.writer }}이 "{{ story.plot }}"이라고 했습니다. <span class='badge'> {{ story.votes }} </span>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src='https://unpkg.com/vue'></script>
+<script>
+    var vm = new Vue({
+        el: '.container',
+        data: {
+            stories: [{
+                writer: 'John',
+                plot: '존이야기1',
+                votes: 25
+            }, {
+                writer: 'Alex',
+                plot: '알렉스이야기1',
+                votes: 30
+            }, {
+                writer: 'Alex',
+                plot: '알렉스이야기2',
+                votes: 18
+            }, {
+                writer: 'John',
+                plot: '존이야기2',
+                votes: 17
+            }]
+        },
+        computed: {
+            famous: function() {
+                return this.stories.filter(function(story) {
+                    return story.votes >= 25; // 투표수가 25개 이상인 이야기만 걸러내서 famous에 저장.
+                    // famous는 원본 data의 변경이 있을 때마다 바뀜.
+                })
+            }
+        }
+    });
+</script>
+
+</html>
