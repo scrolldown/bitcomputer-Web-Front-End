@@ -1,0 +1,74 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>클래스와 스타일 객체로 바인딩</title>
+
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+    <style>
+        .red {
+            background-color: red;
+        }
+        
+        .green {
+            background-color: green;
+        }
+        
+        .blue {
+            background-color: blue;
+        }
+        
+        .purple {
+            background-color: purple;
+        }
+        
+        .box {
+            float: left;
+            width: 200px;
+            height: 200px;
+            margin: 40px;
+            border: 1px solid skyblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app' class='container text-center'>
+        <div class="box" v-bind:class="{'red':color, 'blue':!color}"></div>
+        <div class="box" v-bind:class="{'purple':color, 'green':!color}"></div>
+        <div class="box" v-bind:class="{'red':color, 'blue':!color}"></div>
+        <div class="box" v-bind:class="{'purple':color, 'green':!color}"></div>
+
+        <button @click='toggleColor' class='btn btn-block btn-success'>
+            색깔 전환
+        </button>
+    </div>
+</body>
+
+<script src='https://unpkg.com/vue'></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            color: true
+        },
+        methods: {
+            toggleColor: function() {
+                this.color = !this.color;
+            }
+        }
+    })
+</script>
+
+</html>

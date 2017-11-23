@@ -1,0 +1,56 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>이벤트 </title>
+
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <div id='app' class='container text-center'>
+        <p style="font-size:140px;">
+            {{ votes }}
+        </p>
+        <button class='btn btn-deafult' @click='upvotes'>이벤트</button>
+        <!--  @click 은 click 에 대한 listener를 element에서 선언하는 부분. -->
+        <pre>{{ $data }}</pre>
+    </div>
+</body>
+
+<script src='https://unpkg.com/vue'></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            votes: 0
+        },
+        methods: {
+            upvotes: function() {
+                // **** 이벤트 발생시키는 emit ***** 
+                this.$emit('voted');
+            }
+        },
+        // ********* 이벤트 만들기 ***********
+        created() {
+            //voted라는 이벤트를 만들어서 Listen (이벤트 대기)한다.
+            this.$on('voted', function() {
+                // element의 @와는 달리, $는 컴포넌트에서 listner를 선언.
+                this.votes++;
+            })
+        }
+        // **********************************
+    });
+</script>
+
+</html>

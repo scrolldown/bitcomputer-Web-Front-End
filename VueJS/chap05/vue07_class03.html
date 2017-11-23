@@ -1,0 +1,51 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>객체문법 사용해서 스타일 적용시키기 </title>
+
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+    <div id="app" class="container text-center">
+        <div :style="niceStyle">객체 문법을 사용했습니다.</div>
+        <!-- :으로 HTML의 attribute 컨트롤 가능. -->
+        <!-- 다른 사용예) :disalbed="true/false토글"     -->
+        <!--             :src="이미지 토글"  뭐 이런식.. -->
+
+        <div :style="{'color':'red', 'fontSize':'40px'}">인라인 스타일 지정. 인라인은 잘 안씀.</div>
+        <div :style="{'color':niceStyle.color,'fontSize':niceStyle.fontSize}">
+            스타일 객체를 인라인으로 참조하기</div>
+
+        <div :style="[niceStyle,badStyle]">배열 문법을 사용해서 두개 스타일 다 적용시켜버리기</div>
+    </div>
+</body>
+<script src='https://unpkg.com/vue'></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            niceStyle: {
+                color: 'blue',
+                fontSize: '20px'
+            },
+            badStyle: {
+                fontStyle: 'italic'
+            }
+        }
+    });
+</script>
+
+</html>

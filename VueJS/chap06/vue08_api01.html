@@ -1,0 +1,39 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <h1>Let's hear some stories!</h1>
+            <ul class="list-group">
+                <story v-for="story in stories" :story="story"></story>
+            </ul> <pre>{{$data}}</pre> </div>
+    </div> <template id="template-story-raw">         <li class="list-group-item">             {{ story.writer }} said "{{ story.plot }}"         </li>     </template>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        Vue.component('story', {
+            template: '#template-story-raw',
+            props: ['story']
+        });
+
+        var vm = new Vue({
+                    el: '#app',
+                    data: {
+                        stories: []
+                    },
+                    mounted: function() {
+                            this.$nextTick(function() {
+                                        $.get('http://192.168.1.26:3000/api/stories', function(data) {
+                                                    vm.stories = data.result; //불러온 데이터를 모델 객체에 넣기. vue 의 인스턴스를 참조한 vm 을 이용했다.                     });                 });             }         });
+    </script>
+</body>
+
+</html>

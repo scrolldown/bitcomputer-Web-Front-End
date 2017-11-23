@@ -1,0 +1,86 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>과자 판매 component 예제 </title>
+
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <div id='app' class='container'>
+        <div class="row">
+            <snack v-for="snack in snacks" :my-snack="snack"></snack>
+        </div>
+    </div>
+</body>
+
+<template id="snack-template">
+    <div class="col-lg-3">
+        <div class="thumbnail">
+            <div class="caption">
+                <h3>{{ mySnack.productName }}</h3>
+                <p> 수량 : {{ mySnack.quantity }} </p>
+                <p>
+                    <button class='btn btn-primary' @click="buy" :disabled="!available">구매</button>
+                    <!-- :disabled 는 available 값이 참이 아닐 때, disabled 스타일 지정 -->
+                </p>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script src='https://unpkg.com/vue'></script>
+<script>
+    // 컴포넌트 생성 순서
+    Vue.component('snack', { //             1. custom 태그의 이름 지정
+        template: '#snack-template', //   2. component를 구성할 생성자 객체 {}
+        props: ['mySnack'], //              3. 속성이름 부여 <custom props= ~ > 여기서는 <snack my-snack= ~>
+        methods: { //                       4. 사용할 메소드 정의
+            buy: function() { //                 메소드는 내가 직접 실행해야 될 때 사용
+                this.mySnack.quantity--;
+            }
+        },
+        computed: { //                      5. 계산된 프로퍼티 정의
+            available: function() { //           계산된 프로퍼티는 자기가 자동으로 바뀌어야 할 때 사용
+                return this.mySnack.quantity > 0;
+            }
+        }
+    });
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            snacks: [{
+                productName: '초코송이',
+                quantity: 30
+            }, {
+                productName: '스윙칩',
+                quantity: 60
+            }, {
+                productName: '도리토스',
+                quantity: 40
+            }, {
+                productName: '수미칩',
+                quantity: 30
+            }]
+        },
+        methods: {
+            increase: function(price) {
+                this.proceed += price;
+            }
+        }
+    });
+</script>
+
+</html>

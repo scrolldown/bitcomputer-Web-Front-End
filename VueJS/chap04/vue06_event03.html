@@ -1,0 +1,90 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>자식에서 부모로 이벤트 전달.</title>
+
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <div id="app" class="container text-center">
+        <p style='font-size:140px;'>
+            {{ votes }}
+        </p>
+        <food name="김가네" @voted="countVote"></food>
+        <food name="하나우동" @voted="countVote"></food>
+        <food name="한돈애" @voted="countVote"></food>
+
+        <h1>투표 로그</h1>
+        <ul class="list-group">
+            <li class="list-group-item" v-for="vote in log">{{ vote }}</li>
+        </ul>
+        <pre> {{ $data }}</pre>
+    </div>
+</body>
+
+<template id="food-template"> <!-- 템플릿의 자식 element는 무조건 하나 -->
+    <div class="text-center col-lg-3">
+        <p style='font-size:50px;'>
+            {{ foodVotes }}
+        </p>
+        <button class='btn btn-default' @click="doVote"> {{ name }} </button>
+    </div>
+</template>
+
+<script src='https://unpkg.com/vue'></script>
+<script>
+    Vue.component('food', {
+            template: '#food-template',
+            props: ['name'],
+            data: function() {
+                return {
+                    foodVotes: 0
+                };
+            },
+            methods: {
+                doVote: function() {
+                    this.foodVotes++;
+                    this.$emit('voted', event.srcElement.textContent); // 여기서의 this는 자식 컴포넌트.
+                }
+            }
+        })
+        // ┌────Parent────┐     ┌────Parent────┐
+        // │   ┌─────┐    │     │   ┌─────┐    │
+        // │   │  0  │    │     │   │  0  │    │
+        // │   └─────┘    │     │   └─────┘    │
+        // │              │     │              │
+        // │  ┌─Child──┐  │     │  ┌─Child──┐  │
+        // │  │event() │  │     │  │event() │  │
+        // │  └────────┘  │     │  └────────┘  │
+        // └──────────────┘     └──────────────┘
+        // Child에서 발생한 event를 Parent가 Listen 해야 함.
+
+    // Vue 인스턴스 : 부모
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            votes: 0,
+            log: []
+        },
+        methods: {
+            countVote: function(foodName) {
+                this.votes++;
+                this.log.push(foodName + '투표됨');
+            }
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>HTTP Vue</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <table class="table table-striped">
+                <tr>
+                    <th>#</th>
+                    <th>Plot</th>
+                    <th>Writer</th>
+                    <th>Upvotes</th>
+                    <th>Actions</th>
+                </tr>
+                <tr v-for="story in stories" is="story" :story="story"></tr>
+            </table>
+            <p class="lead">Here's a list of all your stories</p> <pre>{{ $data }}</pre> </div>
+    </div> <template id="template-story-raw"> 
+               <tr>             <td>{{ story._id }}</td>             <td><span>{{ story.plot }}</span></td>             <td><span>{{ story.writer }}</span></td>             <td>{{ story.upvotes }}</td>             <td>                 <div class="btn-group">                     <button @click="upvoteStory(story)" class="btn btn-primary">                         Upvote                  </button>                  <button @click="deleteStory(story)" class="btn btn-danger">                         Delete                  </button>                 </div>             </td>         </tr>     </template>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        //테이블 같이 내부에 들어갈 엘리먼트가 제약이 되어 있는 경우엔 is 속성을 이용해 템플릿을 지정해 주면된다.
+        //이는 story 가 사용자 엘리먼트 라는 것을 말해준다.
+        Vue.component('story', {
+            template: '#template-story-raw',
+            props: ['story'],
+            methods: {
+                upvoteStory: function(story) {
+                    story.upvotes++;
+                    $.ajax({
+                        url: 'http://192.168.1.26:3000/api/stories/upvotes/' + story._id,
+                        type: 'put',
+                        data: story
+                    })
+                },
+                deleteStory: function(story) { //story 찾기              
+                    var index = vm.stories.indexOf(story);
+                    //삭제 
+                    vm.stories.splice(index, 1);
+                    //DELETE 요청 
+                    $.ajax({
+                        url: 'http://192.168.1.26:3000/api/stories/' + story._id,
+                        type: 'delete'
+                    })
+                }
+            }
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                stories: []
+            },
+            mounted: function() {
+                this.$nextTick(function() {
+                    $.get('http://192.168.1.26:3000/api/stories', function(data) {
+                        vm.stories = data.result;
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
